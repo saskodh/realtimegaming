@@ -20,7 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(app.router);
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '')));
 
 // development only
 if ('development' == app.get('env')) {
@@ -33,8 +33,14 @@ var server = http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
 
-var users = {};
-var rooms = {};
+var usersIDHash = {};
+var loggedUsers = [];
+var roomsHash = {};
+var gamesHash = {
+    "battleships"   : './battleships',
+    "tictactoe"     : './tictactoe',
+    "memory"        : './memory'
+}
 
 var rtg = require('./routes/CustomClasses');
 
@@ -44,23 +50,61 @@ io.sockets.on('connection', function (socket) {
     //socket.emit('news', { hello: 'world' });
     //emit active players and rooms
 
-    socket.on('my other event', function (data) {
-        console.log(data);
-    });
+    socket.emit('updatePlayersList', loggedUsers);
 
-    socket.on('register', function (user) {
+    socket.on('register', function (user, callback) {
         console.log(player);
-        var player = rtg.Player();
-        player.isPlaying = false;
-        player.name = user.name;
-        player.socket = socket;
-        player.room = '';
 
-        users[player.socket.id] = player;
+        if(checkPlayerName(user.name)){
+            var player = new rtg.Player();
+            player.isPlaying = false;
+            player.name = user.name;
+            player.socket = socket;
+            player.room = '';
+
+            usersIDHash[player.socket.id] = player;
+            loggedUsers.push({name: user.name, isPlaying: false});
+
+            callback(true);
+            socket.emit('updatePlayersList', loggedUsers);
+            socket.broadcast.emit('updatePlayersList', loggedUsers);
+        } else {
+            callback(false);
+        }
     });
 
-    socket.on('my other event', function (data) {
-        console.log(data);
+    socket.on('createRoom', function(room, callback){
+        console.log(room);
+
+        if(roomsHash[room.name] == null){
+            //create the room, set players room
+            roomsHash[room.name] = room;
+            usersIDHash[socket.id].room = room;
+
+            callback(true);
+            socket.emit('redirect', gamesHash[room.game]);
+        }else {
+            callback(false);
+        }
+    });
+
+    socket.on('chatMessage', function(charMsg){
+        //check if it's logged in
+    });
+
+    socket.on('gameMessage', function(gameMsg){
+        //check if it's logged in
     });
 });
 
+function checkPlayerName(playerName){
+    var flag = true;
+    for(var i=0; i<loggedUsers.length; i++){
+        if(loggedUsers[i].name === playerName){
+            flag = false;
+            break;
+        }
+    }
+
+    return flag;
+}

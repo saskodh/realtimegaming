@@ -2,10 +2,142 @@
 <html>
   <head>
     <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/public/stylesheets/style.css' />
+
+      <script src="/public/javascripts/jquery.js"></script>
+      <!-- Latest compiled and minified CSS -->
+      <link rel="stylesheet" href="/public/bootstrap/css/bootstrap.min.css">
+
+      <!-- Optional theme -->
+      <link rel="stylesheet" href="/public/bootstrap/css/bootstrap-theme.min.css">
+
+      <!-- Latest compiled and minified JavaScript -->
+      <script src="/public/bootstrap/js/bootstrap.min.js"></script>
+
+      <script src="/socket.io/socket.io.js"></script>
+
+      <script src="/public/javascripts/index.js"></script>
+
   </head>
   <body>
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
+
+    <div class="header">header</div>
+    <div class="main">
+        <div id="games" class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">Games</div>
+                <div class="panel-body">
+                    Panel content
+                </div>
+            </div>
+        </div>
+        <div id="rooms" class="col-md-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">Rooms</div>
+                <div class="panel-body">
+                    <div id="roomsDiv">
+                        <!--custom component for showing group-->
+                        <div class="btn-group-vertical" style="width: 100%">
+                            <button type="button" class="btn btn-default">Left</button>
+                            <button type="button" class="btn btn-default">Middle</button>
+                            <button type="button" class="btn btn-default">Right</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="createRoom" class="panel-footer">
+                    <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#createRoomModal">Create room</button>
+                </div>
+            </div>
+        </div>
+        <div id="players" class="col-md-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">Players</div>
+                <div class="panel-body">
+                    <div id="playersDiv">
+                        <!--custom component for showing user-->
+                        <div id="playerTemplate">
+                            <span class="glyphicon glyphicon-user" style="color: limegreen"> </span>
+                            <span class="player">Sashe</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="registerPlayer" class="panel-footer">
+                    <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#registerModal">Register</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">footer</div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Registration</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="txtPlayerName">Player name</label>
+                        <input type="text" class="form-control" id="txtPlayerName" placeholder="Please insert your name">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button id="btnRegister" type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="createRoomModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Create new room</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="txtRoomName">Room name</label>
+                        <input type="text" class="form-control" id="txtRoomName" placeholder="Please insert the name of the room">
+                    </div>
+                    <select id="cmbGame" class="form-control">
+                        <option value="tictactoe">Tic Tac Toe</option>
+                        <option value="battleships">Battleships</option>
+                        <option value="memory">Memory</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button id="btnCreateRoom" type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <!--<div id="alertSuccess" class="alert alert-success">-->
+        <!--<button type="button" class="close" data-dismiss="alert" aria-hidden="true">-->
+            <!--×</button>-->
+        <!--<span class="glyphicon glyphicon-ok"></span> <strong>Success Message</strong>-->
+        <!--<hr class="message-inner-separator">-->
+        <!--<p>-->
+            <!--You successfully read this important alert message.</p>-->
+    <!--</div>-->
+
+    <!--<div id="alertFail" class="alert alert-danger">-->
+        <!--<button type="button" class="close" data-dismiss="alert" aria-hidden="true">-->
+            <!--×</button>-->
+        <!--<span class="glyphicon glyphicon-hand-right"></span> <strong>Danger Message</strong>-->
+        <!--<hr class="message-inner-separator">-->
+        <!--<p>-->
+            <!--Change a few things up and try submitting again.</p>-->
+    <!--</div>-->
+
+
   </body>
 </html>
