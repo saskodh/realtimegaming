@@ -63,6 +63,7 @@ $(document).ready(function(){
     socket.on('updatePlayersList', function(players){
         //get the player template from the DOM
         var playersList = $('#playersDiv');
+        playersList.empty();
 
         //foreach player in the list add one template item
         players.forEach(function(player){
@@ -71,7 +72,16 @@ $(document).ready(function(){
     });
 
     socket.on('updateRoomsList', function(rooms){
+        var roomsList = $('#roomsDiv:first-child');
+        roomsList.empty();
 
+        rooms.forEach(function(room){
+            var item = createRoomTemplate(room);
+            item.click(function(){
+                console.log(room.name + ' was clicked!');
+            });
+            roomsList.append(item);
+        })
     });
 });
 
@@ -93,5 +103,9 @@ var createPlayerTemplate = function(playerName, available){
 }
 
 var createRoomTemplate = function(room){
-    var result =
+    //TODO:
+    var result = $(document.createElement('button')).addClass('btn btn-default');
+    result.html(room.name);
+
+    return result;
 }

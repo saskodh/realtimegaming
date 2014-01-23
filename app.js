@@ -28,6 +28,9 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', routes.index);
+app.get('/game', function(request, response){
+    response.render('game', {});
+});
 
 var server = http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
@@ -36,6 +39,7 @@ var server = http.createServer(app).listen(app.get('port'), function(){
 var usersIDHash = {};
 var loggedUsers = [];
 var roomsHash = {};
+var activeRooms = [];
 var gamesHash = {
     "battleships"   : './battleships',
     "tictactoe"     : './tictactoe',
@@ -51,6 +55,7 @@ io.sockets.on('connection', function (socket) {
     //emit active players and rooms
 
     socket.emit('updatePlayersList', loggedUsers);
+    socket.emit('updateRoomsList', activeRooms);
 
     socket.on('register', function (user, callback) {
         console.log(player);
@@ -78,11 +83,20 @@ io.sockets.on('connection', function (socket) {
 
         if(roomsHash[room.name] == null){
             //create the room, set players room
-            roomsHash[room.name] = room;
-            usersIDHash[socket.id].room = room;
+            var theRoom = new rtg.Room();
+            theRoom.name = room.name;
+            theRoom.game = room.game; //TODO: will be supstituted
+            theRoom.players = [usersIDHash[socket.id]];
+            theRoom.isActive = true;
+            theRoom.recentMessages = [];
+
+            roomsHash[room.name] = theRoom;
+            usersIDHash[socket.id].room = theRoom;
+            activeRooms.push({name: theRoom.name});
 
             callback(true);
             socket.emit('redirect', gamesHash[room.game]);
+            socket.broadcast.emit('updateRoomList', activeRooms);
         }else {
             callback(false);
         }
