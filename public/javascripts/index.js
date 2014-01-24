@@ -11,7 +11,7 @@ var player = null;
 var room = null;
 
 $(document).ready(function(){
-    socket = io.connect("127.0.0.1:3000");
+    socket = io.connect('http://localhost:3000/');
 
     $('#btnCreateRoom').click(function(){
         if(player == null){
