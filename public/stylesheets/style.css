@@ -6,3 +6,14 @@ body {
 a {
   color: #00B7FF;
 }
+
+.TicTacToeGameCell{
+    width: 100px;
+    height: 100px;
+    background-color: white;
+    border: 1px solid;
+    padding: 5px;
+    float: left;
+    font-size: 50px;
+    text-align: center;
+}
