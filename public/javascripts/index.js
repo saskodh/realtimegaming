@@ -26,10 +26,12 @@ $(document).ready(function(){
         players.forEach(function(player){
             playersList.append(createPlayerTemplate(player.name, player.isPlaying));
         });
+
+        $('#spinnerPlayers').hide();
     });
 
     socket.on('updateRoomsList', function(rooms){
-        var roomsList = $('#roomsDiv:first-child');
+        var roomsList = $('#roomsList');
         roomsList.empty();
 
         rooms.forEach(function(room){
@@ -38,7 +40,9 @@ $(document).ready(function(){
                 console.log(room.name + ' was clicked!');
             });
             roomsList.append(item);
-        })
+        });
+
+        $('#spinnerRooms').hide();
     });
 });
 
@@ -61,8 +65,17 @@ var createPlayerTemplate = function(playerName, available){
 
 var createRoomTemplate = function(room){
     //TODO:
-    var result = $(document.createElement('button')).addClass('btn btn-default');
-    result.html(room.name);
+//    var result = $(document.createElement('button')).addClass('btn btn-default');
+//    result.html(room.name);
 
-    return result;
+    var url = '' + room.game + '/' + room.name;
+
+    var li = $(document.createElement('li'));
+    var anchor = $(document.createElement('a')).attr('href', url);
+    anchor.append($(document.createElement('span')).addClass("badge pull-right").html(room.numPlayers));
+    anchor.append($(document.createElement('span')).html(room.name));
+
+    li.append(anchor);
+
+    return li;
 }

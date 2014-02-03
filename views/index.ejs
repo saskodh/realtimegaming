@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/public/stylesheets/style.css' />
+    <title>Real-time gaming engine</title>
+    <link rel='stylesheet' href='/public/stylesheets/index.css' />
 
       <script src="/public/javascripts/jquery.js"></script>
       <!-- Latest compiled and minified CSS -->
@@ -20,30 +20,49 @@
 
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
 
-    <div class="header">header</div>
-    <div class="main">
+    <div id="header" class="row">
+        <div class="col-md-10">
+            <p>Welcome to the Real-time gaming engine</p>
+        </div>
+        <div class="col-md-2">
+            <div id="loggedUserDiv" class="well well-sm" style="text-align: center">
+                <%if(!username){    %>
+                    Please log in
+                <%} else {  %>
+                    <div id="playerTemplate">
+                        <span class="glyphicon glyphicon-user" style="color: limegreen"> </span>
+                        <span class="player"><%= username%></span>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+    <div id="main" class="row">
         <div id="games" class="col-md-8">
             <div class="panel panel-default">
                 <div class="panel-heading">Games</div>
                 <div class="panel-body">
-                    Panel content
+                    <div id="gamesDiv">
+
+                    </div>
                 </div>
             </div>
         </div>
         <div id="rooms" class="col-md-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Rooms</div>
+                <div class="panel-heading">
+                    Rooms
+                    <span id="spinnerRooms" class="pull-right">
+                        <img src="/public/images/spinner.gif">
+                    </span>
+                </div>
                 <div class="panel-body">
                     <div id="roomsDiv">
                         <!--custom component for showing group-->
-                        <div class="btn-group-vertical" style="width: 100%">
-                            <button type="button" class="btn btn-default">Left</button>
-                            <button type="button" class="btn btn-default">Middle</button>
-                            <button type="button" class="btn btn-default">Right</button>
-                        </div>
+                        <ul id="roomsList" class="nav nav-pills nav-stacked">
+
+                        </ul>
                     </div>
                 </div>
                 <div id="createRoom" class="panel-footer">
@@ -53,14 +72,19 @@
         </div>
         <div id="players" class="col-md-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Players</div>
+                <div class="panel-heading">
+                    Players
+                    <span id="spinnerPlayers" class="pull-right">
+                        <img src="/public/images/spinner.gif">
+                    </span>
+                </div>
                 <div class="panel-body">
                     <div id="playersDiv">
                         <!--custom component for showing user-->
-                        <div id="playerTemplate">
+                        <!--<div id="playerTemplate">
                             <span class="glyphicon glyphicon-user" style="color: limegreen"> </span>
                             <span class="player">Sashe</span>
-                        </div>
+                        </div>-->
                     </div>
                 </div>
                 <div id="registerPlayer" class="panel-footer">
@@ -69,7 +93,7 @@
             </div>
         </div>
     </div>
-    <div class="footer">footer</div>
+    <div id="footer" class="row">footer</div>
 
     <!-- Register Modal -->
     <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

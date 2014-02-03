@@ -2,6 +2,12 @@
 /**
  * Module dependencies.
  */
+var usersHash = {};
+var loggedUsers = [];
+
+var roomsHash = {};
+var activeRooms = [];
+
 
 var express = require('express');
 var http = require('http');
@@ -36,24 +42,53 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-app.get('/', Controller.indexGet);
-app.post('/', Controller.indexPost);
-app.get('/game', Controller.game);
+app.get('/', function(req, res){
+    var username = req.session.username;
+    if(username){
+        req.session.game = null;
+        req.session.room = null;
+
+        usersHash[username].game = null;
+        usersHash[username].room = null;
+        usersHash[username].isPlaying = false;
+
+        usersHash[username].lastLogin = Date.now();
+    }
+
+    res.render('index', {"username": username});
+});
+
 
 app.post('/register', function(req, res){
+    var username = req.body.username;
 
-    if(req.body.username){
+    if(username){
         //TODO: check if the username exists
+        if(usersHash[username]){
+            //return username is taken
+        }else {
+            //register user
+            usersHash[username] = new rtg.Player(username);
 
-        //register user
-        req.session.username = req.body.username;
-        req.session.room = null;
-        req.session.game = null;
+            req.session.username = req.body.username;
+            req.session.room = null;
+            req.session.game = null;
+        }
     }
 
     //redirect to index
-    res.render('index', { title: 'Express' });
+    res.render('index', {"username": username});
 });
+
+app.post('/logout', Controller.authorizer, function(req, res){
+
+    if(usersHash[req.session.username])
+        delete usersHash[req.session.username];
+
+    req.session.username = null;
+    req.session.room = null;
+    req.session.game = null;
+})
 
 app.post('/createroom', Controller.authorizer, function(req, res){
 
@@ -75,10 +110,14 @@ app.get('/tictactoe/:room', Controller.authorizer, function(req, res){
         req.session.room = params.room;
         req.session.game = 'tictactoe';
 
+        usersHash[req.session.username].room = params.room;
+        usersHash[req.session.username].game = 'tictactoe';
+        usersHash[req.session.username].isPlaying = true;
+
         res.render('game', params);
     }else {
         //redirect to index
-        res.render('index', { title: 'Express' });
+        res.render('index', { "username": req.session.username });
     }
 });
 
@@ -86,11 +125,7 @@ var server = http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
 
-var usersIDHash = {};
-var loggedUsers = [];
 
-var roomsHash = {};
-var activeRooms = [];
 
 
 var rtg = require('./routes/CustomClasses');
@@ -103,7 +138,9 @@ function extractRoomList(roomsHash){
     for(var roomName in roomsHash){
         if(roomsHash.hasOwnProperty(roomName)){
             var roomObj = {
-                name: roomName
+                name: roomName,
+                game: roomsHash[roomName].game,
+                numPlayers: roomsHash[roomName].players.length
             };
             res.push(roomObj);
         }
@@ -113,11 +150,11 @@ function extractRoomList(roomsHash){
 }
 
 
-
 io.of('/index').on('connection', function(socket){
     //TODO optional: send active rooms and logged users
     //emit rooms
     socket.emit('updateRoomsList', extractRoomList(roomsHash));
+    socket.emit('updatePlayersList', extractLoggedInPlayers());
 
     socket.on('disconnect', function () {
         //console.log(usersIDHash[clientID].name + " was deleted from usersIDHash");
@@ -179,6 +216,7 @@ io.of('/game').on('connection', function(socket){
 
             if(socket.handshake.session.game){
                 //TODO: room.game = GameFactory.create('socket.handshake.session.game');
+                room.game = socket.handshake.session.game;
             }
 
             roomsHash[roomName] = room;
@@ -226,25 +264,25 @@ io.of('/game').on('connection', function(socket){
     });
 
     socket.on('disconnect', function(){
-        //console.log("player disconected from the game namespace!!!!!");
+
         var roomName = socket.handshake.session.room;
         if(roomName){
-            //TODO: check if it's the last player in the room
-            //console.log(io.sockets.clients(socket.handshake.session.room));
-
             //remove the player from the room
             socket.leave(roomName);
             removePlayerFromRoom(roomName, socket.id);
+
             //check if no players in the room
             if(roomsHash[roomName].players.length == 0){
                 delete roomsHash[roomName];
+            } else {
+
+                //emit leaving message to the room
+                var msg = new rtg.ChatMessage(socket.handshake.session.username, "I'm leaving the room");
+                socket.broadcast.to(roomName).emit('chatMessage', msg);
+
+                //emit updatePlayerList
+                socket.emit('updatePlayersList', extractPlayerUsernames(roomName));
             }
-
-            //emit leaving message to the room
-            var msg = new rtg.ChatMessage(socket.handshake.session.username, "I'm leaving the room");
-            socket.broadcast.to(roomName).emit('chatMessage', msg);
-
-            //emit updatePlayerList
         }
     });
 
@@ -300,5 +338,22 @@ function extractPlayerUsernames(roomName){
 
         res.push(playerObj);
     }
+    return res;
+}
+
+function extractLoggedInPlayers(){
+    var res = [];
+
+    for(var username in usersHash){
+        if(usersHash.hasOwnProperty(username)){
+            var userObj = {
+                name: usersHash[username].username,
+                isPlaying: usersHash[username].isPlaying
+            }
+
+            res.push(userObj);
+        }
+    }
+
     return res;
 }

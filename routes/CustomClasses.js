@@ -6,11 +6,12 @@
  * To change this template use File | Settings | File Templates.
  */
 
-var Player = function(){
-    this.socket = '';
-    this.name = '';
+var Player = function(username){
+    this.username = username;
     this.isPlaying = false;
     this.room = '';
+    this.game = '';
+    this.lastLogin = Date.now();
 }
 
 var Room = function(){
