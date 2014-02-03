@@ -11,54 +11,11 @@ var player = null;
 var room = null;
 
 $(document).ready(function(){
-    socket = io.connect('http://localhost:3000/');
+    socket = io.connect('/index');
 
-    $('#btnCreateRoom').click(function(){
-        if(player == null){
-            alert("You must be registered first");
-        }
-
-        var roomName = $('#txtRoomName').val();
-        var game = $('#cmbGame').val();
-
-        room = {
-            name: roomName,
-            game: game
-        };
-
-        socket.emit('createRoom', room, function(valid){
-            if(valid){
-                //the room is created, you can continue to the game page
-            }else {
-                alert("The name was already taken. Please choose another.");
-                $('#txtRoomName').focus();
-                room = null;
-            }
-        });
-    });
-
-    $('#btnRegister').click(function(){
-        var playerName = $('#txtPlayerName').val();
-
-        player = {
-            name: playerName
-        };
-
-        socket.emit('register', player, function(valid){
-            $('#registerModal').modal('hide');
-            if(valid){
-                alert(playerName + ", you're successfully registered.\n You can pick one of the free rooms or you can create new.");
-            }else {
-                alert("The name was already taken. Please choose another.");
-                $('#txtPlayerName').focus();
-                player = null;
-            }
-        })
-    });
-
-    socket.on('redirect', function(url){
-        location.pathname = url;
-    });
+//    socket.on('redirect', function(url){
+//        location.pathname = url;
+//    });
 
     socket.on('updatePlayersList', function(players){
         //get the player template from the DOM

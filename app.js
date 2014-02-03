@@ -11,6 +11,7 @@ var connect =   require('connect');
 var Controller = require('./routes/Controller');
 
 var app = express();
+var sessionStore = new connect.session.MemoryStore();
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -22,7 +23,11 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(express.cookieParser());
-app.use(express.session({secret: 'secret', key: 'express.sid'}));
+app.use(express.session({
+    secret: 'secret',
+    key: 'express.sid',
+    store: sessionStore
+}));
 app.use(app.router);
 app.use(express.static(path.join(__dirname, '')));
 
@@ -35,40 +40,101 @@ app.get('/', Controller.indexGet);
 app.post('/', Controller.indexPost);
 app.get('/game', Controller.game);
 
+app.post('/register', function(req, res){
+
+    if(req.body.username){
+        //TODO: check if the username exists
+
+        //register user
+        req.session.username = req.body.username;
+        req.session.room = null;
+        req.session.game = null;
+    }
+
+    //redirect to index
+    res.render('index', { title: 'Express' });
+});
+
+app.post('/createroom', Controller.authorizer, function(req, res){
+
+    var url = '/' + req.body.game + '/' + req.body.room;
+
+    res.redirect(url);
+});
+
+app.get('/tictactoe/:room', Controller.authorizer, function(req, res){
+    if(req.params.room){
+        var params = {
+            "game": {
+                id: 'tictactoe',
+                name: 'Tic tac toe'
+            },
+            "room": req.params.room
+        };
+
+        req.session.room = params.room;
+        req.session.game = 'tictactoe';
+
+        res.render('game', params);
+    }else {
+        //redirect to index
+        res.render('index', { title: 'Express' });
+    }
+});
+
 var server = http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
 
 var usersIDHash = {};
 var loggedUsers = [];
+
 var roomsHash = {};
 var activeRooms = [];
-var gamesHash = {
-    "battleships"   : './battleships',
-    "tictactoe"     : './tictactoe',
-    "memory"        : './memory'
-}
+
 
 var rtg = require('./routes/CustomClasses');
 
 io = require('socket.io').listen(server);
 
-// Configure global authorization handling. handshakeData will contain
-// the request data associated with the handshake request sent by
-// the socket.io client. 'accept' is a callback function used to either
-// accept or reject the connection attempt.
-// We will use the session id (attached to a cookie) to authorize the user.
-// in this case, if the handshake contains a valid session id, the user will be authorized.
-io.set('authorization', function (handshakeData, accept) {
-    // check if there's a cookie header
+
+function extractRoomList(roomsHash){
+    var res = [];
+    for(var roomName in roomsHash){
+        if(roomsHash.hasOwnProperty(roomName)){
+            var roomObj = {
+                name: roomName
+            };
+            res.push(roomObj);
+        }
+    }
+
+    return res;
+}
+
+
+
+io.of('/index').on('connection', function(socket){
+    //TODO optional: send active rooms and logged users
+    //emit rooms
+    socket.emit('updateRoomsList', extractRoomList(roomsHash));
+
+    socket.on('disconnect', function () {
+        //console.log(usersIDHash[clientID].name + " was deleted from usersIDHash");
+        //remove the user from the usersHash
+        //delete usersIDHash[clientID];
+    });
+});
+
+
+io.of('/game').authorization( function (handshakeData, accept) {
+    //console.log(handshakeData);
     if (handshakeData.headers.cookie) {
-        // if there is, parse the cookie
+
         handshakeData.cookie = cookie.parse(handshakeData.headers.cookie);
-        // the cookie value should be signed using the secret configured above (see line 17).
-        // use the secret to to decrypt the actual session id.
+
         handshakeData.sessionID = connect.utils.parseSignedCookie(handshakeData.cookie['express.sid'], 'secret');
-        // if the session id matches the original value of the cookie, this means that
-        // we failed to decrypt the value, and therefore it is a fake.
+
         if (handshakeData.cookie['express.sid'] == handshakeData.sessionID) {
             // reject the handshake
             return accept('Cookie is invalid.', false);
@@ -78,130 +144,161 @@ io.set('authorization', function (handshakeData, accept) {
         // and leave the function.
         return accept('No cookie transmitted.', false);
     }
-    //all OK, accept the incoming connection
-    accept(null, true);
+
+    sessionStore.get(handshakeData.sessionID, function(err, session){
+        if (err) {
+            return accept('Error in session store.', false);
+        } else if (!session) {
+            return accept('Session not found.', false);
+        }
+        // success! we're authenticated with a known session.
+        handshakeData.session = session;
+
+        if(session.username){
+            //the user is logged in
+            return accept(null, true);
+        }
+
+        return accept('The user is not logged in.', false);
+    });
 });
 
-io.sockets.on('connection', function (socket) {
-    //socket.emit('news', { hello: 'world' });
-    //emit active players and rooms
-    var clientID = socket.handshake.sessionID;
+io.of('/game').on('connection', function(socket){
 
-    console.log('A socket with sessionID ' + socket.handshake.sessionID
-        + ' connected!');
+    var roomName =  socket.handshake.session.room;
+    if(roomName){
+        //check if the room is active
+        if(!roomsHash[roomName]){
+            console.log("this is the first player in the room!!!!");
+            //this is the first player in the room
+            var room = new rtg.Room();
+            room.id = '/game/' + roomName;
+            room.name = roomName;
+            room.recentMessages = [];
+            room.players = [];
 
-    socket.emit('updatePlayersList', loggedUsers);
-    socket.emit('updateRoomsList', activeRooms);
+            if(socket.handshake.session.game){
+                //TODO: room.game = GameFactory.create('socket.handshake.session.game');
+            }
 
-    socket.on('register', function (user, callback) {
-        console.log(player);
-        if(usersIDHash[clientID] != null){
-            socket.emit('error', "already registered");
-            return;
+            roomsHash[roomName] = room;
+
+            //activeRooms.push(socket.handshake.session.room);
+            //emit updateRoomsList to index namespace
+            io.of('index').in('').emit('updateRoomsList', extractRoomList(roomsHash));
         }
 
+        //join the room you visited
+        socket.join(roomName);
+        roomsHash[roomName].players.push(socket);
 
-        if(checkPlayerName(user.name)){
-            var player = new rtg.Player();
-            player.isPlaying = false;
-            player.name = user.name;
-            //player.socket = socket;
-            player.room = '';
-            player.id = clientID;
+        //emit recent messages
+        socket.emit('recentChatMsgs', roomsHash[roomName].recentMessages);
 
-            usersIDHash[player.id] = player;
-            loggedUsers.push({name: user.name, isPlaying: false});
+        //emit joining message to the room
+        var msg = new rtg.ChatMessage(socket.handshake.session.username, "I'm joining the room");
+        socket.broadcast.to(roomName).emit('chatMessage', msg);
 
-            callback(true);
-            socket.emit('updatePlayersList', loggedUsers);
-            socket.broadcast.emit('updatePlayersList', loggedUsers);
-        } else {
-            callback(false);
-        }
-    });
+        //emit player list in the room
+//        console.log();
+//        console.log(io.sockets.clients(roomsHash[roomName].id));
+        //we exprect this to return a list of the players sockets
+        //and then from the session to read and return the name
 
-    socket.on('createRoom', function(room, callback){
-        //console.log(room);
-        //check if registered user
-        if(usersIDHash[clientID] != null){
-            socket.emit('error', "already registered");
-            return;
-        }
+        socket.emit('updatePlayersList', extractPlayerUsernames(roomName));
+    }
 
-        if(roomsHash[room.name] == null){
-            //create the room, set players room
-            var theRoom = new rtg.Room();
-            theRoom.name = room.name;
-            theRoom.game = room.game; //TODO: will be supstituted
-            theRoom.players = [usersIDHash[clientID]];
-            theRoom.isActive = true;
-            theRoom.recentMessages = [];
 
-            roomsHash[room.name] = theRoom;
-            usersIDHash[clientID].room = theRoom;
-            activeRooms.push({name: theRoom.name});
+    socket.on('chatMessage', function(data){
 
-            callback(true);
-            socket.emit('redirect', gamesHash[room.game]);
-            socket.broadcast.emit('updateRoomList', activeRooms);
-        }else {
-            callback(false);
-        }
-    });
-
-    socket.on('chatMessage', function(chatMsg){
-        //check if it's logged in and it's in a room
-        var player = usersIDHash[clientID];
-        console.log("[chatMessage]: player: " + player);
-        console.log("[chatMessage]: sessionID: " + socket.handshake.sessionID + " : " + clientID);
-        //the user is not registered
-        if(player == null)
-            return;
-        //the player is not participating in a room
-//        if(!player.isPlaying)
-//            return;
-
-        var theMsg = new rtg.ChatMessage();
-
-        theMsg.from = player.name;
-        theMsg.time = Date.now();
-        theMsg.message = chatMsg.message;
+        var roomName = socket.handshake.session.room;
+        var theMsg = new rtg.ChatMessage(socket.handshake.session.username, data.message);
 
         socket.emit('chatMessage', theMsg);
-        socket.broadcast.to(player.room.name).emit('chatMessage', theMsg);
+        socket.broadcast.to(roomName).emit('chatMessage', theMsg);
 
-        player.room.recentMessages.push(theMsg);
+        //TODO: update function that will keep just the last 10 msgs
+        roomsHash[roomName].recentMessages.push(theMsg);
     });
 
-    socket.on('gameMessage', function(gameMsg){
-        //check if it's logged in and it's in a room
-        var player = usersIDHash[clientID];
-        //the user is not registered
-        if(player == null)
-            return;
-        //the player is not participating in a room
-        if(!player.isPlaying)
-            return;
+    socket.on('gameMessage', function(data){
 
-        //TODO: to be implemented
     });
 
+    socket.on('disconnect', function(){
+        //console.log("player disconected from the game namespace!!!!!");
+        var roomName = socket.handshake.session.room;
+        if(roomName){
+            //TODO: check if it's the last player in the room
+            //console.log(io.sockets.clients(socket.handshake.session.room));
 
-    socket.on('disconnect', function () {
-        console.log(usersIDHash[clientID].name + " was deleted from usersIDHash");
-        //remove the user from the usersHash
-        //delete usersIDHash[clientID];
+            //remove the player from the room
+            socket.leave(roomName);
+            removePlayerFromRoom(roomName, socket.id);
+            //check if no players in the room
+            if(roomsHash[roomName].players.length == 0){
+                delete roomsHash[roomName];
+            }
+
+            //emit leaving message to the room
+            var msg = new rtg.ChatMessage(socket.handshake.session.username, "I'm leaving the room");
+            socket.broadcast.to(roomName).emit('chatMessage', msg);
+
+            //emit updatePlayerList
+        }
     });
+
+    //emit recent messages in his room
+    /*
+    * vo io.sockets.manager.rooms['ime na soba'] lista od id na soketite koi napravile join na taa soba
+    *
+    * sobite ke moze da se menadziraat na
+    *   on.('connection') - kreiraj ako ne postoi, dodadi socket
+    *   on.('disconnect') - proveri uste kolku igraci ima vo sobata, ako nema nikoj brisi ja
+    *
+    * vo sobata da se cuva instanca od game engine-ot
+    *
+    * kako ke znaeme za koja soba e porakata, od sesijata ke proverime vo koja soba e korisnikot
+    *
+    * nema da se dozvoluva najavuvanje ako korisnikot veke postoi
+    *
+    * stom otvori index se brise room od negovata sesija
+    * */
+    //emit players in the room
+
+    //start the game
+
+    //on gameMessage forward to the rooms' game engine
+    //on chatMessage broadcast the message to the room
 });
 
-function checkPlayerName(playerName){
-    var flag = true;
-    for(var i=0; i<loggedUsers.length; i++){
-        if(loggedUsers[i].name === playerName){
-            flag = false;
+
+function removePlayerFromRoom(roomName, socketID){
+    var index = -1;
+    for(var i=0; i<roomsHash[roomName].players.length; i++){
+
+        if(roomsHash[roomName].players[i].id == socketID) {
+            index = i;
             break;
         }
     }
 
-    return flag;
+    if(index > -1){
+        roomsHash[roomName].players.splice(i, 1);
+    }
+}
+
+
+function extractPlayerUsernames(roomName){
+    var res = [];
+    var players = roomsHash[roomName].players;
+    for(var i=0; i<players.length; i++){
+        var playerObj = {
+            name: players[i].handshake.session.username,
+            isPlaying: true
+        }
+
+        res.push(playerObj);
+    }
+    return res;
 }

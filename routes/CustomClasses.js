@@ -16,14 +16,14 @@ var Player = function(){
 var Room = function(){
     this.id = '';       //TODO: id needs to be unique
     this.name = '';
-    this.isActive = true;
-    this.players = [];
+    //this.players = [];
     this.game = null;
     this.recentMessages = [];
+    this.players = [];
 }
 
 var ChatMessage = function(player, message){
-    this.from = player.name;
+    this.from = player;
     this.time = Date.now();
     this.message = message;
 }

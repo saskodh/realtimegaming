@@ -71,7 +71,7 @@
     </div>
     <div class="footer">footer</div>
 
-    <!-- Modal -->
+    <!-- Register Modal -->
     <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -79,21 +79,25 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title">Registration</h4>
                 </div>
+                <form method="post" action="/register">
+
+
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="txtPlayerName">Player name</label>
-                        <input type="text" class="form-control" id="txtPlayerName" placeholder="Please insert your name">
+                        <input type="text" class="form-control" id="txtPlayerName" name="username" placeholder="Please insert your name">
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button id="btnRegister" type="button" class="btn btn-primary">Save changes</button>
+                    <button id="btnRegister" type="submit" class="btn btn-primary">Save changes</button>
                 </div>
+                </form>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
-    <!-- Modal -->
+    <!-- Create Room Modal -->
     <div class="modal fade" id="createRoomModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -101,21 +105,24 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title">Create new room</h4>
                 </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="txtRoomName">Room name</label>
-                        <input type="text" class="form-control" id="txtRoomName" placeholder="Please insert the name of the room">
+                <form method="post" action="/createroom">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="txtRoomName">Room name</label>
+                            <input type="text" class="form-control" id="txtRoomName" name="room"
+                                   placeholder="Please insert the name of the room">
+                        </div>
+                        <select id="cmbGame" name="game" class="form-control">
+                            <option value="tictactoe">Tic Tac Toe</option>
+                            <option value="battleships">Battleships</option>
+                            <option value="memory">Memory</option>
+                        </select>
                     </div>
-                    <select id="cmbGame" class="form-control">
-                        <option value="tictactoe">Tic Tac Toe</option>
-                        <option value="battleships">Battleships</option>
-                        <option value="memory">Memory</option>
-                    </select>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button id="btnCreateRoom" type="button" class="btn btn-primary">Save changes</button>
-                </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button id="btnCreateRoom" type="submit" class="btn btn-primary">Create room</button>
+                    </div>
+                </form>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->

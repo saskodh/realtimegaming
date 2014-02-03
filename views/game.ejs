@@ -20,7 +20,7 @@
     <body>
         <div id="header" class="row">
             <div class="col-md-10">
-                <p>Ime na igrata: Ime na soba</p>
+                <p><%= game.name %>: <%= room %></p>
             </div>
             <div class="col-md-2">
                 <button id="btnLeaveRoom" type="button" class="btn btn-danger">Leave room</button>
@@ -28,7 +28,10 @@
         </div>
         <div id="main">
             <div id="gameDiv" style="height: 300px; text-align: center; background-color: lightblue">
-                The Game
+                <% if(game.id == 'tictactoe'){  %>
+                    <% include tictactoe %>
+                <% }    %>
+
             </div>
             <div id="controls" class="row">
                 <div id="chatDiv" class="col-md-8">

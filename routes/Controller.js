@@ -24,3 +24,17 @@ Controller.indexPost = function(request, response){
 Controller.game = function(request, response){
     response.render('game', {});
 };
+
+Controller.register = function(req, res){
+
+}
+
+Controller.authorizer = function(req, res, controller){
+    if(req.session.username){
+        //forward the request
+        controller();
+    }else {
+        res.writeHead(200);
+        res.end('You must log in first!');
+    }
+}

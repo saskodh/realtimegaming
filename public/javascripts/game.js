@@ -8,7 +8,7 @@
 var socket;
 
 $(document).ready(function(){
-    socket = io.connect('http://localhost:3000/');
+    socket = io.connect('/game');
 
     socket.on('recentChatMsgs', function(messages){
         var tbody = $('#chatDiv tbody');
@@ -36,7 +36,9 @@ $(document).ready(function(){
     });
 
     $('#btnLeaveRoom').click(function(){
-
+        //disconnect the socket
+        socket.disconnect();
+        document.location = '/';
     });
 
     $('#btnSend').click(function(){
