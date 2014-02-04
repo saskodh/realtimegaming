@@ -5,7 +5,7 @@
  * Time: 18:32
  * To change this template use File | Settings | File Templates.
  */
-var socket;
+document.socket = null;
 
 $(document).ready(function(){
     socket = io.connect('/game');

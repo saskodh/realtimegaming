@@ -15,6 +15,7 @@ var path = require('path');
 var cookie  =   require('cookie');
 var connect =   require('connect');
 var Controller = require('./routes/Controller');
+var GameFactory = require('./routes/GameFactory');
 
 var app = express();
 var sessionStore = new connect.session.MemoryStore();
@@ -114,7 +115,7 @@ app.get('/tictactoe/:room', Controller.authorizer, function(req, res){
         usersHash[req.session.username].game = 'tictactoe';
         usersHash[req.session.username].isPlaying = true;
 
-        res.render('game', params);
+        res.render('TikaTakaTu', params);
     }else {
         //redirect to index
         res.render('index', { "username": req.session.username });
@@ -132,6 +133,7 @@ var rtg = require('./routes/CustomClasses');
 
 io = require('socket.io').listen(server);
 
+io.set('log level', 1);
 
 function extractRoomList(roomsHash){
     var res = [];
@@ -139,7 +141,7 @@ function extractRoomList(roomsHash){
         if(roomsHash.hasOwnProperty(roomName)){
             var roomObj = {
                 name: roomName,
-                game: roomsHash[roomName].game,
+                game: roomsHash[roomName].game.gameID,
                 numPlayers: roomsHash[roomName].players.length
             };
             res.push(roomObj);
@@ -215,8 +217,16 @@ io.of('/game').on('connection', function(socket){
             room.players = [];
 
             if(socket.handshake.session.game){
-                //TODO: room.game = GameFactory.create('socket.handshake.session.game');
-                room.game = socket.handshake.session.game;
+                //TODO:
+                room.game = GameFactory.createGame(socket.handshake.session.game);
+
+                if(room.game != null){
+                    room.game.roomName = roomName;
+                    room.game.io = io;
+                }else {
+                    console.log("Error in creating the game: GameFactory");
+                }
+                //room.game = socket.handshake.session.game;
             }
 
             roomsHash[roomName] = room;
@@ -259,8 +269,19 @@ io.of('/game').on('connection', function(socket){
         roomsHash[roomName].recentMessages.push(theMsg);
     });
 
-    socket.on('gameMessage', function(data){
+    socket.on('gameMessage', function(message){
+        //fetch the room and the user who sent the message and pass it to the game engine
+        var roomName = socket.handshake.session.room;
+        var username = socket.handshake.session.username;
+        if(roomName && username){
+            if(roomsHash[roomName] && usersHash[username]){
+                message.from = usersHash[username];
+                //message.room = roomsHash[roomName];
 
+                //pass it to the game engine
+                roomsHash[roomName].game.considerPlayerMessage(message);
+            }
+        }
     });
 
     socket.on('disconnect', function(){
