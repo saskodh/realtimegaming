@@ -100,6 +100,7 @@ var TicTacToeGame = module.exports = function(){
     this.io = null;
     this.players = [];
 
+
     this.resetGame();
 }
 
