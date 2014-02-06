@@ -20,6 +20,8 @@ var MemoryGameMessageType = {
     GAME_STATE_MESSAGE  :   'state'
 }
 
+
+
 var MemoryGameMessageCreator =  {};
 MemoryGameMessageCreator.createStartGameMessage = function(){
     var msg = new MemoryGameMessage();
