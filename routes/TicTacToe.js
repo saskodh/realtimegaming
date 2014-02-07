@@ -45,11 +45,11 @@ TicTacMessageCreator.createPlayerMoveMessage = function(position){
     return msg;
 }
 
-TicTacMessageCreator.createGameOverMessage = function(isWinner, winnerName, winningLine){
+TicTacMessageCreator.createGameOverMessage = function(error, winnerName, winningLine){
     var msg = new TicTacMessage();
     msg.msgType = TicTacMessageType.GAME_OVER_MESSAGE;
     msg.data = {
-        isWinner: isWinner,
+        error: error,
         winnerName: winnerName,
         winningLine: winningLine
     }
@@ -59,7 +59,7 @@ TicTacMessageCreator.createGameOverMessage = function(isWinner, winnerName, winn
 
 TicTacMessageCreator.createInfoMessage = function(info){
     var msg = new TicTacMessage();
-    msg.msgType = TicTacMessageType.START_GAME_MESSAGE;
+    msg.msgType = TicTacMessageType.INFO_MESSAGE;
     msg.data = {
         info: info
     }
@@ -67,9 +67,16 @@ TicTacMessageCreator.createInfoMessage = function(info){
     return msg;
 }
 
-TicTacMessageCreator.createGameStateMessage = function(state){
+TicTacMessageCreator.createGameStateMessage = function(gameState, turn){
     var msg = new TicTacMessage();
     msg.msgType = TicTacMessageType.GAME_STATE_MESSAGE;
+
+    var state = {
+        gameState: gameState,
+        turn: turn
+        //, isOver: false
+    }
+
     msg.data = {
         state: state
     }
@@ -130,30 +137,34 @@ TicTacToeGame.prototype.acceptPlayerMove = function(player, position){
             this.playerTurn = TurnEnum.PLAYER_ONE;
 
         // broadcast the new state(gameState and turn) to the game room
-        var state = {
-            gameState: this.gameState,
-            turn: this.playerTurn
-            //, isOver: false
-        }
+        this.roomBroadcast(TicTacMessageCreator.createGameStateMessage(this.gameState, this.playerTurn));
 
-        //io.of('namespace').in('room')
-        this.io.of('/game').in(this.roomName).emit('gameMessage', TicTacMessageCreator.createGameStateMessage(state));
+        //check if the game is over (player won or draw game)
 
-        //check if the game is over
-        var winningLine = this.checkGameOver(this.gameState[position]);
+        //check if player won
+        var winningLine = this.checkPlayerWon(this.gameState[position]);
         if(winningLine){
             //the game is over
             this.stopGame();
 
             var msg = TicTacMessageCreator.createGameOverMessage(false, player.username, winningLine);
 
-            this.io.of('/game').in(this.roomName).emit('gameMessage', msg);
+            this.roomBroadcast(msg);
         }
 
+        //check if drawGame
+        if(this.checkDrawGame()){
+            //TODO: send message for draw game
+
+            this.resetGame();
+
+            this.roomBroadcast(TicTacMessageCreator.createGameStateMessage(this.gameState, this.playerTurn));
+
+        }
     }
 }
 
-TicTacToeGame.prototype.checkGameOver = function(fieldValue){
+TicTacToeGame.prototype.checkPlayerWon = function(fieldValue){
     var lines = [];
     lines.push([0, 1, 2]);
     lines.push([3, 4, 5]);
@@ -184,21 +195,50 @@ TicTacToeGame.prototype.checkGameOver = function(fieldValue){
     return winningLine;
 }
 
+TicTacToeGame.prototype.checkDrawGame = function(){
+    var flag = true;
+
+    for(var i=0; i<this.gameState.length; i++){
+        if(this.gameState[i] == GameFieldValue.EMPTY){
+            flag = false;
+            break;
+        }
+    }
+
+    return flag;
+}
+
 TicTacToeGame.prototype.addPlayer = function(player){
     var result = false;
+
+    if(this.isRunning){
+        console.log('The game is running cant add more players!');
+        return false;
+    }
 
     if(this.players.length < 2){
         //add the player
         result = true;
         this.players.push(player);
-
-        if(this.players.length == 2){
-            //the game can begin
-            this.startGame();
-        }
     }
 
     return result;
+}
+
+TicTacToeGame.prototype.handleStartGameMessage = function(message){
+    console.log("StartGameMessage:");
+    this.addPlayer(message.from);
+
+    if(!this.isRunning && this.players.length >= 2){
+        //the game can begin
+        this.startGame();
+        //broadcast startGameMessage
+        this.roomBroadcast(TicTacMessageCreator.createStartGameMessage());
+        this.roomBroadcast(TicTacMessageCreator.createInfoMessage("Game can begin. On turn: " + this.playerTurn));
+        this.roomBroadcast(TicTacMessageCreator.createGameStateMessage(this.gameState, this.playerTurn));
+    }else {
+        this.roomBroadcast(TicTacMessageCreator.createInfoMessage("One more player needed."));
+    }
 }
 
 TicTacToeGame.prototype.removePlayer = function(player){
@@ -213,37 +253,39 @@ TicTacToeGame.prototype.removePlayer = function(player){
     if(index > -1){
         this.players.slice(index, 1);
 
-        if(this.players.length >= 2){
-            this.startGame();
-        } else {
+        //check if he was playing to stop the game
+        if(player.username == TurnEnum.PLAYER_ONE || player.username == TurnEnum.PLAYER_TWO){
+            this.stopGame();
 
+            var error = player.username + " disconnected. To play press start";
+            this.roomBroadcast(TicTacMessageCreator.createGameOverMessage(error, '', ''));
         }
+
     }
 }
 
 TicTacToeGame.prototype.startGame = function(){
-    if(this.isRunning)
-        return;
 
-    if(this.players.length == 2){
-        console.log("!!!!!!!! The Game can begin !!!!!!!!!!") ;
+    console.log("!!!!!!!! The Game can begin !!!!!!!!!!") ;
 
-        TurnEnum.PLAYER_ONE = this.players[0].username;
-        TurnEnum.PLAYER_TWO = this.players[1].username;
+    TurnEnum.PLAYER_ONE = this.players[0].username;
+    TurnEnum.PLAYER_TWO = this.players[1].username;
 
-        this.playerTurn = TurnEnum.PLAYER_ONE;
-        this.isRunning = true;
-        console.log("startGame method: isRunning = " + this.isRunning);
-    }
+    this.playerTurn = TurnEnum.PLAYER_ONE;
+    this.isRunning = true;
+
+    this.resetGame();
 }
 
 TicTacToeGame.prototype.stopGame = function(){
     this.isRunning = false;
+    this.players = [];
+    //this.resetGame();
 }
 
 TicTacToeGame.prototype.resetGame = function(){
-    this.playerTurn = TurnEnum.PLAYER_ONE;
-    this.isRunning = false;
+    //this.playerTurn = TurnEnum.PLAYER_ONE;
+    //this.isRunning = false;
     this.gameState = [];
 
     for(var i=0; i<9; i++)
@@ -260,8 +302,7 @@ TicTacToeGame.prototype.considerPlayerMessage = function(message){
     console.log(this.roomName);
     //dispatcher method
     if(message.msgType == TicTacMessageType.START_GAME_MESSAGE){
-        console.log("StartGameMessage: addPlayer");
-        this.addPlayer(message.from);
+        this.handleStartGameMessage(message);
     }
     if(message.msgType == TicTacMessageType.RESET_GAME_MESSAGE){
         this.resetGame();
@@ -273,4 +314,8 @@ TicTacToeGame.prototype.considerPlayerMessage = function(message){
         console.log("PlayerMoveMessage: acceptPlayerMove");
         this.acceptPlayerMove(message.from, message.data.position);
     }
+}
+
+TicTacToeGame.prototype.roomBroadcast = function(message){
+    this.io.of('/game').in(this.roomName).emit('gameMessage',message);
 }

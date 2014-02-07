@@ -233,7 +233,7 @@ io.of('/game').on('connection', function(socket){
 
             //activeRooms.push(socket.handshake.session.room);
             //emit updateRoomsList to index namespace
-            io.of('index').in('').emit('updateRoomsList', extractRoomList(roomsHash));
+            io.of('index').emit('updateRoomsList', extractRoomList(roomsHash));
         }
 
         //join the room you visited
@@ -254,6 +254,7 @@ io.of('/game').on('connection', function(socket){
         //and then from the session to read and return the name
 
         socket.emit('updatePlayersList', extractPlayerUsernames(roomName));
+        socket.broadcast.to(roomName).emit('updatePlayersList', extractPlayerUsernames(roomName));
     }
 
 
@@ -287,7 +288,8 @@ io.of('/game').on('connection', function(socket){
     socket.on('disconnect', function(){
 
         var roomName = socket.handshake.session.room;
-        if(roomName){
+        var username = socket.handshake.session.username;
+        if(roomName && username){
             //remove the player from the room
             socket.leave(roomName);
             removePlayerFromRoom(roomName, socket.id);
@@ -295,6 +297,8 @@ io.of('/game').on('connection', function(socket){
             //check if no players in the room
             if(roomsHash[roomName].players.length == 0){
                 delete roomsHash[roomName];
+                //emit updateRoomsList to index namespace
+                io.of('index').emit('updateRoomsList', extractRoomList(roomsHash));
             } else {
 
                 //emit leaving message to the room
@@ -302,7 +306,10 @@ io.of('/game').on('connection', function(socket){
                 socket.broadcast.to(roomName).emit('chatMessage', msg);
 
                 //emit updatePlayerList
-                socket.emit('updatePlayersList', extractPlayerUsernames(roomName));
+                socket.broadcast.to(roomName).emit('updatePlayersList', extractPlayerUsernames(roomName));
+
+                //remove it from the game
+                roomsHash[roomName].game.removePlayer(usersHash[username]);
             }
         }
     });

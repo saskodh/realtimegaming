@@ -74,6 +74,13 @@ var TicTacClient = function(socket, playground){
 
     this.playground.append(this.label);
 
+    this.btnStart = $(document.createElement('button')).addClass('btn btn-default').html("Start Game");
+    this.btnStart.click(function(){
+        socket.emit('gameMessage', TicTacMessageCreator.createStartGameMessage());
+    });
+    this.playground.append(this.btnStart);
+
+    var div = $(document.createElement('div'));
     var template = null;
     for(var i=0; i<3; i++){
         for(var j=0; j<3; j++){
@@ -89,22 +96,41 @@ var TicTacClient = function(socket, playground){
                 console.log(position);
                 that.socket.emit('gameMessage', TicTacMessageCreator.createPlayerMoveMessage(position));
             });
-            this.playground.append(template);
+            div.append(template);
         }
     }
+
+    this.playground.append(div);
 }
 
-TicTacClient.prototype.startGame = function(){}
-TicTacClient.prototype.resetGame = function(){}
-TicTacClient.prototype.gameOver = function(data){
+TicTacClient.prototype.startGame = function(){
+    this.btnStart.hide();
 
-    this.label.text("The winner is "+data.winnerName);
-    for(var i=0; i<data.winningLine.length; i++){
-        $("#" + data.winningLine[i]).css("background-color","red");
+    //clear the table
+    for(var i=0; i<9; i++){
+        $("#" + i).css("background-color","");
     }
 }
+TicTacClient.prototype.resetGame = function(){
+    this.label.html("Draw game");
+}
+TicTacClient.prototype.gameOver = function(data){
+
+    if(!data.error){
+        this.label.text("The winner is "+data.winnerName);
+        for(var i=0; i<data.winningLine.length; i++){
+            $("#" + data.winningLine[i]).css("background-color","red");
+        }
+    }else {
+        this.label.text(data.error);
+    }
+
+    this.btnStart.show();
+}
 TicTacClient.prototype.playerMove = function(){}
-TicTacClient.prototype.setInfo = function(){}
+TicTacClient.prototype.setInfo = function(info){
+    this.label.html(info);
+}
 
 TicTacClient.prototype.considerMessage = function(message){
     //dispatcher method
@@ -121,7 +147,7 @@ TicTacClient.prototype.considerMessage = function(message){
         this.playerMove();
     }
     if(message.msgType == TicTacMessageType.INFO_MESSAGE){
-        this.setInfo();
+        this.setInfo(message.data.info);
     }
     if(message.msgType == TicTacMessageType.GAME_STATE_MESSAGE){
         this.updateState(message.data);
@@ -139,6 +165,8 @@ TicTacClient.prototype.updateState = function(data){
             clickedDiv.text('X');
         if(data.state.gameState[i] == GameFieldValue.O)
             clickedDiv.text('O');
+        if(data.state.gameState[i] == GameFieldValue.EMPTY)
+            clickedDiv.text('');
     }
 }
 
@@ -172,7 +200,7 @@ $(document).ready(function(){
 
     var playground = $('#gameDiv');
     gameEngine = new TicTacClient(socket, playground);
-    socket.emit('gameMessage', TicTacMessageCreator.createStartGameMessage());
+   // socket.emit('gameMessage', TicTacMessageCreator.createStartGameMessage());
 
     socket.on('gameMessage', function(message){
         gameEngine.considerMessage(message);

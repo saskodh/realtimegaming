@@ -80,30 +80,7 @@ MemoryGameMessageCreator.createGameStateMessage = function(state){
 
 
 
-TicTacToeGame.prototype.considerPlayerMessage = function(message){
-    //message.from
-    //message.room
-    console.log("message received in the server game engine");
-    console.log(this.playerTurn);
-    console.log(this.isRunning);
-    console.log(this.gameState);
-    console.log(this.roomName);
-    //dispatcher method
-    if(message.msgType == MemoryGameMessageType.START_GAME_MESSAGE){
-        console.log("StartGameMessage: addPlayer");
-        this.addPlayer(message.from);
-    }
-    if(message.msgType == MemoryGameMessageType.RESET_GAME_MESSAGE){
-        this.resetGame();
-    }
-    if(message.msgType == MemoryGameMessageType.GAME_OVER_MESSAGE){
-        //TODO: vakva poraka nema da stigne od klient
-    }
-    if(message.msgType == MemoryGameMessageType.PLAYER_MOVE_MESSAGE){
-        console.log("PlayerMoveMessage: acceptPlayerMove");
-        this.acceptPlayerMove(message.from, message.data.position);
-    }
-}
+
 
 
 var TurnEnum = {
@@ -206,7 +183,7 @@ MemoryGame.prototype.checkGameCanBegin = function(){
     return canStart;
 }
 
-MemoryGame.prototype.checkGameOver = function(){
+MemoryGame.prototype.checkPlayerWon = function(){
     if(this.playerOneMap.isOver()||this.playerTwoMap.isOver())
         return true;
     return false;
@@ -246,7 +223,7 @@ MemoryGame.prototype.startGame = function(){
 }
 
 MemoryGame.prototype.roomBroadcast = function(message){
-    this.io.of('/game').in.(this.roomName).emit('gameMessage',message);
+    this.io.of('/game').in(this.roomName).emit('gameMessage',message);
 }
 
 MemoryGame.prototype.acceptPlayerMove = function(player, position){
@@ -266,4 +243,29 @@ MemoryGame.prototype.acceptPlayerMove = function(player, position){
 
     var state = this.playerOneMap.acceptPlayerMove(position);
 
+}
+
+MemoryGame.prototype.considerPlayerMessage = function(message){
+    //message.from
+    //message.room
+    console.log("message received in the server game engine");
+    console.log(this.playerTurn);
+    console.log(this.isRunning);
+    console.log(this.gameState);
+    console.log(this.roomName);
+    //dispatcher method
+    if(message.msgType == MemoryGameMessageType.START_GAME_MESSAGE){
+        console.log("StartGameMessage: addPlayer");
+        this.addPlayer(message.from);
+    }
+    if(message.msgType == MemoryGameMessageType.RESET_GAME_MESSAGE){
+        this.resetGame();
+    }
+    if(message.msgType == MemoryGameMessageType.GAME_OVER_MESSAGE){
+        //TODO: vakva poraka nema da stigne od klient
+    }
+    if(message.msgType == MemoryGameMessageType.PLAYER_MOVE_MESSAGE){
+        console.log("PlayerMoveMessage: acceptPlayerMove");
+        this.acceptPlayerMove(message.from, message.data.position);
+    }
 }
