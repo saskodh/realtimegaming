@@ -122,6 +122,30 @@ app.get('/tictactoe/:room', Controller.authorizer, function(req, res){
     }
 });
 
+app.get('/memorygame/:room', Controller.authorizer, function(req, res){
+    if(req.params.room){
+        var params = {
+            "game": {
+                id: 'memorygame',
+                name: 'Memory Game'
+            },
+            "room": req.params.room
+        };
+
+        req.session.room = params.room;
+        req.session.game = 'memorygame';
+
+        usersHash[req.session.username].room = params.room;
+        usersHash[req.session.username].game = 'memorygame';
+        usersHash[req.session.username].isPlaying = true;
+
+        res.render('memorija', params);
+    }else {
+        //redirect to index
+        res.render('index', { "username": req.session.username });
+    }
+});
+
 var server = http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
