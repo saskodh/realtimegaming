@@ -2,12 +2,6 @@
  * Created by Kristian on 2/9/14.
  */
 
-var GameFieldValue = {
-    X: 1,
-    O: 2,
-    EMPTY: 3
-}
-
 var MemoryGameMessageType = {
     START_GAME_MESSAGE  :   'start',
     GAME_OVER_MESSAGE   :   'gameover',
@@ -66,7 +60,12 @@ var MemoryGameClient = function(socket, playground){
 
     //init
     function _createCellTemplate(id){
-        return $(document.createElement('div')).addClass('MemoryGameCell').prop('id', id);
+        var img = $(document.createElement('img'));
+        img.attr('src', "/public/images/"+id%10+".jpg");
+        img.attr("height","30");
+        img.attr("weight","30");
+        img.css("visibility","hidden");
+        return $(document.createElement('div')).addClass('MemoryGameCell').prop('id', id).append(img);
     }
 
     this.label = $(document.createElement('h2'));
@@ -84,13 +83,16 @@ var MemoryGameClient = function(socket, playground){
     var divRight = $(document.createElement('div'));
     var templateLeft = null;
     var templateRight = null;
-    var id = 0;
+    var idLeft = 0;
+    var idRight = 20;
     for(var i=0; i<4; i++){
         for(var j=0; j<5; j++){
-            templateLeft = _createCellTemplate(id);
-            templateRight = _createCellTemplate(id);
-            if(id == 5 || id == 10 || id == 15){
+            templateLeft = _createCellTemplate(idLeft);
+            templateRight = _createCellTemplate(idRight);
+            if(idLeft == 5 || idLeft == 10 || idLeft == 15){
                 templateLeft.css('clear', 'left');
+            }
+            if(idRight == 25 || idRight == 30 || idRight == 35){
                 templateRight.css('clear', 'left');
             }
 
@@ -106,7 +108,8 @@ var MemoryGameClient = function(socket, playground){
             });
             divLeft.append(templateLeft);
             divRight.append(templateRight);
-            id++;
+            idRight++;
+            idLeft++;
         }
     }
     divLeft.css('float','left');
@@ -119,7 +122,7 @@ MemoryGameClient.prototype.startGame = function(){
     this.btnStart.hide();
 
     //clear the table
-    for(var i=0; i<9; i++){
+    for(var i=0; i<20; i++){
         $("#" + i).css("background-color","");
     }
 }
@@ -136,7 +139,9 @@ MemoryGameClient.prototype.gameOver = function(data){
 
     this.btnStart.show();
 }
-MemoryGameClient.prototype.playerMove = function(){}
+MemoryGameClient.prototype.playerMove = function(position){
+
+}
 MemoryGameClient.prototype.setInfo = function(info){
     this.label.html(info);
 }
@@ -164,18 +169,17 @@ MemoryGameClient.prototype.considerMessage = function(message){
 }
 
 MemoryGameClient.prototype.updateState = function(data){
-    this.label.text("On Move: "+data.state.turn);
-
+    //this.label.text("On Move: "+data.state.turn);
     //data.gameState
     for(var i=0; i<data.state.gameState.length; i++){
         var clickedDiv = $("#" + i);
-
-        if(data.state.gameState[i] == GameFieldValue.X)
-            clickedDiv.text('X');
-        if(data.state.gameState[i] == GameFieldValue.O)
-            clickedDiv.text('O');
-        if(data.state.gameState[i] == GameFieldValue.EMPTY)
-            clickedDiv.text('');
+        var clickedDiv = $("#" + i);
+        var img = $(document.createElement('img'));
+        img.attr('src', "/public/images/"+data.state.stateMap[i]%10+".jpg");
+        if(data.state.gameState[i] == false)
+            clickedDiv.children().css("visibility","hidden");
+        if(data.state.gameState[i] == true)
+            clickedDiv.children().css("visibility","visible");
     }
 }
 
@@ -205,7 +209,7 @@ $(document).ready(function(){
     // socket.emit('gameMessage', MemoryGameMessageCreator.createStartGameMessage());
 
     socket.on('gameMessage', function(message){
-        gameEngine.considerMessage(message);
+        gameEngine.considerMessage( message);
     });
 
     socket.on('recentChatMsgs', function(messages){

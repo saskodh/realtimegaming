@@ -6,18 +6,6 @@
  * To change this template use File | Settings | File Templates.
  */
 
-var MemoryGameState = function(numRows, numColumns){
-    this.numTiles = numRows * numColumns;
-    this.stateMap = [];
-    this.isOpen = [];
-    this.hasPrevMove = false;
-    this.prevMovePosition = '';
-
-    for(var i=0; i<this.numTiles; i++)
-        this.isOpen[i] = false;
-}
-
-
 var MemoryGameMessageType = {
     START_GAME_MESSAGE  :   'start',
     GAME_OVER_MESSAGE   :   'gameover',
@@ -31,7 +19,6 @@ var MemoryGameMessage = function(){
     this.msgType = '';
     this.data = {};
 }
-
 
 var MemoryGameMessageCreator =  {};
 MemoryGameMessageCreator.createStartGameMessage = function(){
@@ -89,90 +76,81 @@ MemoryGameMessageCreator.createGameStateMessage = function(state){
     return msg;
 }
 
-var TurnEnum = {
-    PLAYER_ONE: 1,
-    PLAYER_TWO: 2
-}
-
 var MemoryGame = module.exports = function(){
     this.gameID = 'memorygame';
-    this.playerTurn = TurnEnum.PLAYER_ONE;
     this.isRunning = false;
     this.gameState = [];
     this.roomName = '';
     this.io = null;
     this.players = [];
-    this.playerOneMap = null;
-    this.playerTwoMap = null;
+    this.numTiles = 40;
+    this.stateMap = [];
 
     this.resetGame();
+    this.initRandom();
 }
 
-MemoryGameState.prototype.acceptPlayerMove = function(position){
-    if(this.isOpen[position])
+MemoryGame.prototype.acceptPlayerMove = function(player,position){
+    if(!this.isRunning)
         return;
 
-    if(this.hasPrevMove){
-        this.hasPrevMove = false;
-
-        if(this.stateMap[position] == this.stateMap[this.prevMovePosition]){
-            this.isOpen[position] = true;
-
-        }else {
-            this.isOpen[this.prevMovePosition] = false;
-        }
-    }else {
-        this.hasPrevMove = true;
-        this.prevMovePosition = position;
-        this.isOpen[position] = true;
+    var existingPlayer = false;
+    for(var i=0;i<this.players.length;i++){
+        if(this.players[i].username == player.username)
+            existingPlayer = true;
     }
+    if(!existingPlayer)
+        return;
+
+    if(player == this.players[1] && (position <0 || position >= this.numTiles/2))
+        return;
+    if(player == this.players[0] && (position <20 || position >= this.numTiles))
+        return;
+
+    this.gameState[position] = true;
 
     var state = {
-        isOpen: this.isOpen
+        gameState: this.gameState,
+        stateMap:this.stateMap
     };
+
+    this.roomBroadcast(MemoryGameMessageCreator.createGameStateMessage(state));
 
     return state;
 }
 
 MemoryGame.prototype.checkPlayerWon = function(){
-    if(this.playerOneMap.isOver()||this.playerTwoMap.isOver())
-        return true;
-    return false;
+
 }
 
 
-MemoryGameState.prototype.initRandom = function(){
-    for(var i=0; i<2; i++)
-        for(var j=0; j<this.numTiles/2; j++)
-            this.stateMap[i*this.numTiles/2 + j] = j;
+MemoryGame.prototype.initRandom = function(){
+    var leftMap = [];
+    var rightMap = [];
+    for(var i=0; i<20; i++){
+        leftMap[i] = i%10;
+        rightMap[i] = i%10;
+    }
+    leftMap = this.shuffle(leftMap);
+    rightMap = this.shuffle(rightMap);
 
-    this.stateMap = this.shuffle(this.stateMap);
+    for(var i=0; i<20; i++){
+        this.stateMap[i] = leftMap[i];
+        this.stateMap[20+i] = rightMap[i];
+    }
 
     console.log(this.stateMap.toString());
 }
 
-MemoryGameState.prototype.isOver = function(){
-    var isOver = true;
-    for(var i=0; i<this.numTiles; i++)
-        if(!this.isOpen[i]){
-            isOver = false;
-            break;
-        }
-    return isOver;
-}
-
-
-
-MemoryGameState.prototype.shuffle = function shuffle(o){ //v1.0
+MemoryGame.prototype.shuffle = function shuffle(o){ //v1.0
     for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
 
     return o;
 }
 
 MemoryGame.prototype.resetGame = function(){
-    if(this.checkGameCanBegin()){
-        this.playerOneMap = new MemoryGameState(4,5);
-        this.playerTwoMap = new MemoryGameState(4,5);
+    for(var i=0;i<this.numTiles;i++){
+        this.gameState[i] = false;
     }
 }
 
@@ -180,16 +158,9 @@ MemoryGame.prototype.checkGameCanBegin = function(){
     var canStart = true;
     if(this.players.length < 2)
         canStart = false;
-    if(this.playerOneMap == null || this.playerTwoMap == null)
-        canStart = false;
-    else{
-        if(!this.playerOneMap.isOver() && !this.playerTwoMap.isOver())
-            canStart = false;
-    }
+
     return canStart;
 }
-
-
 
 MemoryGame.prototype.addPlayer = function(player){
     var result = false;
@@ -215,9 +186,6 @@ MemoryGame.prototype.startGame = function(){
     if(this.players.length == 2){
         console.log("!!!!!!!! The Memory Game can begin !!!!!!!!!!") ;
 
-        TurnEnum.PLAYER_ONE = this.players[0].username;
-        TurnEnum.PLAYER_TWO = this.players[1].username;
-
         this.isRunning = true;
         console.log("startGame method: isRunning = " + this.isRunning);
         this.roomBroadcast(MemoryGameMessageCreator.createInfoMessage('The game can begin!!!'));
@@ -228,24 +196,6 @@ MemoryGame.prototype.roomBroadcast = function(message){
     this.io.of('/game').in(this.roomName).emit('gameMessage',message);
 }
 
-MemoryGame.prototype.acceptPlayerMove = function(player, position){
-    if(!this.isRunning)
-        return;
-
-    var existingPlayer = false;
-    for(var i=0;i<this.players.length;i++){
-        if(this.players[i].username == player.username)
-            existingPlayer = true;
-    }
-    if(!existingPlayer)
-        return;
-
-    if(position <0 || position >= 20)
-        return;
-
-    var state = this.playerOneMap.acceptPlayerMove(position);
-
-}
 
 MemoryGame.prototype.considerPlayerMessage = function(message){
     //message.from
