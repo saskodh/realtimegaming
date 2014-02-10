@@ -151,8 +151,6 @@ var server = http.createServer(app).listen(app.get('port'), function(){
 });
 
 
-
-
 var rtg = require('./routes/CustomClasses');
 
 io = require('socket.io').listen(server);

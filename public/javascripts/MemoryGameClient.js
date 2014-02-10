@@ -80,27 +80,39 @@ var MemoryGameClient = function(socket, playground){
     });
     this.playground.append(this.btnStart);
 
-    var div = $(document.createElement('div'));
-    var template = null;
-    for(var i=0; i<3; i++){
-        for(var j=0; j<3; j++){
-            var id = 3*i + j;
-            template = _createCellTemplate(id);
-
-            if(id == 3 || id == 6){
-                template.css('clear', 'left');
+    var divLeft = $(document.createElement('div'));
+    var divRight = $(document.createElement('div'));
+    var templateLeft = null;
+    var templateRight = null;
+    var id = 0;
+    for(var i=0; i<4; i++){
+        for(var j=0; j<5; j++){
+            templateLeft = _createCellTemplate(id);
+            templateRight = _createCellTemplate(id);
+            if(id == 5 || id == 10 || id == 15){
+                templateLeft.css('clear', 'left');
+                templateRight.css('clear', 'left');
             }
 
-            template.click(function(){
+            templateLeft.click(function(){
                 var position = $(this).prop("id");
                 console.log(position);
                 that.socket.emit('gameMessage', MemoryGameMessageCreator.createPlayerMoveMessage(position));
             });
-            div.append(template);
+            templateRight.click(function(){
+                var position = $(this).prop("id");
+                console.log(position);
+                that.socket.emit('gameMessage', MemoryGameMessageCreator.createPlayerMoveMessage(position));
+            });
+            divLeft.append(templateLeft);
+            divRight.append(templateRight);
+            id++;
         }
     }
-
-    this.playground.append(div);
+    divLeft.css('float','left');
+    divRight.css('float','right');
+    this.playground.append(divLeft);
+    this.playground.append(divRight);
 }
 
 MemoryGameClient.prototype.startGame = function(){
@@ -131,22 +143,22 @@ MemoryGameClient.prototype.setInfo = function(info){
 
 MemoryGameClient.prototype.considerMessage = function(message){
     //dispatcher method
-    if(message.msgType == TicTacMessageType.START_GAME_MESSAGE){
+    if(message.msgType == MemoryGameMessageType.START_GAME_MESSAGE){
         this.startGame();
     }
-    if(message.msgType == TicTacMessageType.RESET_GAME_MESSAGE){
+    if(message.msgType == MemoryGameMessageType.RESET_GAME_MESSAGE){
         this.resetGame();
     }
-    if(message.msgType == TicTacMessageType.GAME_OVER_MESSAGE){
+    if(message.msgType == MemoryGameMessageType.GAME_OVER_MESSAGE){
         this.gameOver(message.data);
     }
-    if(message.msgType == TicTacMessageType.PLAYER_MOVE_MESSAGE){
+    if(message.msgType == MemoryGameMessageType.PLAYER_MOVE_MESSAGE){
         this.playerMove();
     }
-    if(message.msgType == TicTacMessageType.INFO_MESSAGE){
+    if(message.msgType == MemoryGameMessageType.INFO_MESSAGE){
         this.setInfo(message.data.info);
     }
-    if(message.msgType == TicTacMessageType.GAME_STATE_MESSAGE){
+    if(message.msgType == MemoryGameMessageType.GAME_STATE_MESSAGE){
         this.updateState(message.data);
     }
 }
@@ -167,7 +179,7 @@ MemoryGameClient.prototype.updateState = function(data){
     }
 }
 
-TicTacClient.prototype.drawMove = function(player,position,letter){
+MemoryGameClient.prototype.drawMove = function(player,position,letter){
     var onTurnHeader = $("#turn");
     onTurnHeader.text("On Move: "+player);
     var clickedDiv = $("#" + position);
@@ -189,8 +201,8 @@ $(document).ready(function(){
     socket = io.connect('/game');
 
     var playground = $('#gameDiv');
-    gameEngine = new TicTacClient(socket, playground);
-    // socket.emit('gameMessage', TicTacMessageCreator.createStartGameMessage());
+    gameEngine = new MemoryGameClient(socket, playground);
+    // socket.emit('gameMessage', MemoryGameMessageCreator.createStartGameMessage());
 
     socket.on('gameMessage', function(message){
         gameEngine.considerMessage(message);

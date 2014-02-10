@@ -10,7 +10,7 @@ var games = {};
 
 //list all game engines here
 games['tictactoe'] = require('./TicTacToe');
-games['memory'] = require('./Memory');
+games['memory'] = require('./memory');
 
 var GameFactory = module.exports = {};
 

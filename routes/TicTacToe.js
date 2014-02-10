@@ -21,6 +21,7 @@ var TicTacMessage = function(){
 }
 
 var TicTacMessageCreator =  {};
+
 TicTacMessageCreator.createStartGameMessage = function(){
     var msg = new TicTacMessage();
     msg.msgType = TicTacMessageType.START_GAME_MESSAGE;

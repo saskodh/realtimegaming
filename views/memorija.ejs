@@ -20,7 +20,7 @@
 <body>
 <div id="header" class="row">
     <div class="col-md-10">
-        <p><%= game.name %>: <%= room %></p>
+        <p>tukka<%= game.name %>: <%= room %></p>
     </div>
     <div class="col-md-2">
         <button id="btnLeaveRoom" type="button" class="btn btn-danger">Leave room</button>
@@ -28,7 +28,56 @@
 </div>
 <div id="main">
     <div id="gameDiv" style="height: 300px; text-align: center; background-color: lightblue">
-        <!--        &lt;!&ndash;This need to be replaced with templates&ndash;&gt;
+         <div id="playerOneMap" style="float:left;">
+            <!--<div class="MemoryGameCell" id="0"></div>
+            <div class="MemoryGameCell" id="1"></div>
+            <div class="MemoryGameCell" id="2"></div>
+            <div class="MemoryGameCell" id="3"></div>
+            <div class="MemoryGameCell" id="4"></div>
+
+            <div class="MemoryGameCell" id="5" style="clear:left;"></div>
+            <div class="MemoryGameCell" id="6"></div>
+            <div class="MemoryGameCell" id="7"></div>
+            <div class="MemoryGameCell" id="8"></div>
+            <div class="MemoryGameCell" id="9"></div>
+
+            <div class="MemoryGameCell" id="10" style="clear:left;"></div>
+            <div class="MemoryGameCell" id="11"></div>
+            <div class="MemoryGameCell" id="12"></div>
+            <div class="MemoryGameCell" id="13"></div>
+            <div class="MemoryGameCell" id="14"></div>
+
+            <div class="MemoryGameCell" id="15" style="clear:left;"></div>
+            <div class="MemoryGameCell" id="16"></div>
+            <div class="MemoryGameCell" id="17"></div>
+            <div class="MemoryGameCell" id="18"></div>
+            <div class="MemoryGameCell" id="19"></div>-->
+        </div>
+        <div id="playerTwoMap" style="float:right;">
+            <!--<div class="MemoryGameCell" id="0"></div>
+            <div class="MemoryGameCell" id="1"></div>
+            <div class="MemoryGameCell" id="2"></div>
+            <div class="MemoryGameCell" id="3"></div>
+            <div class="MemoryGameCell" id="4"></div>
+
+            <div class="MemoryGameCell" id="5" style="clear:left;"></div>
+            <div class="MemoryGameCell" id="6"></div>
+            <div class="MemoryGameCell" id="7"></div>
+            <div class="MemoryGameCell" id="8"></div>
+            <div class="MemoryGameCell" id="9"></div>
+
+            <div class="MemoryGameCell" id="10" style="clear:left;"></div>
+            <div class="MemoryGameCell" id="11"></div>
+            <div class="MemoryGameCell" id="12"></div>
+            <div class="MemoryGameCell" id="13"></div>
+            <div class="MemoryGameCell" id="14"></div>
+
+            <div class="MemoryGameCell" id="15" style="clear:left;"></div>
+            <div class="MemoryGameCell" id="16"></div>
+            <div class="MemoryGameCell" id="17"></div>
+            <div class="MemoryGameCell" id="18"></div>
+            <div class="MemoryGameCell" id="19"></div>-->
+        </div><!--        &lt;!&ndash;This need to be replaced with templates&ndash;&gt;
         <h2 id="turn">On Move:</h2>
         <div class="TicTacToeGameCell" id="0"></div>
         <div class="TicTacToeGameCell" id="1"></div>
