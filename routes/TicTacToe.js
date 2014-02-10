@@ -296,11 +296,7 @@ TicTacToeGame.prototype.resetGame = function(){
 TicTacToeGame.prototype.considerPlayerMessage = function(message){
     //message.from
     //message.room
-    console.log("message received in the server game engine");
-    console.log(this.playerTurn);
-    console.log(this.isRunning);
-    console.log(this.gameState);
-    console.log(this.roomName);
+
     //dispatcher method
     if(message.msgType == TicTacMessageType.START_GAME_MESSAGE){
         this.handleStartGameMessage(message);

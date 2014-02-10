@@ -5,10 +5,23 @@
  * Time: 18:32
  * To change this template use File | Settings | File Templates.
  */
-document.socket = null;
+var socket = null;
+var gameEngine = null;
 
 $(document).ready(function(){
     socket = io.connect('/game');
+
+    var playground = $('#gameDiv');
+
+    if(document.Game){
+        gameEngine = new document.Game(socket, playground);
+        //hide the loader
+    }
+
+    socket.on('gameMessage', function(message){
+        if(gameEngine)
+            gameEngine.considerMessage(message);
+    });
 
     socket.on('recentChatMsgs', function(messages){
         var tbody = $('#chatDiv tbody');

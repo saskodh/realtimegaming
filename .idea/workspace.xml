@@ -2,11 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9f08db38-1e18-4927-9e26-49cb4bf8c695" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/Memory.js" afterPath="$PROJECT_DIR$/routes/Memory.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/TicTacToe.ejs" afterPath="$PROJECT_DIR$/views/TicTacToe.ejs" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/routes/SocketManager.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/javascripts/tictactoe.js" />
+      <change type="DELETED" beforePath="C:\Users\Sashe\playWorkspace\RealTimeGaming\public\javascripts\TicTacToeClient.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Sashe\playWorkspace\RealTimeGaming\routes\connection.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Sashe\playWorkspace\RealTimeGaming\routes\index.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Sashe\playWorkspace\RealTimeGaming\views\TikaTakaTu.ejs" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Sashe\playWorkspace\RealTimeGaming\views\tictactoe.ejs" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/Controller.js" afterPath="$PROJECT_DIR$/routes/Controller.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/TicTacToe.js" afterPath="$PROJECT_DIR$/routes/TicTacToe.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/TicTacToeClient.js" afterPath="$PROJECT_DIR$/public/javascripts/TicTacToeClient.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/game.ejs" afterPath="$PROJECT_DIR$/views/game.ejs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/game.js" afterPath="$PROJECT_DIR$/public/javascripts/game.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="RealTimeGaming.iws" />
@@ -14,15 +21,15 @@
     <file path="/package.json" changelist="9f08db38-1e18-4927-9e26-49cb4bf8c695" time="1390562926175" ignored="false" />
     <file path="/CustomClasses.js" changelist="9f08db38-1e18-4927-9e26-49cb4bf8c695" time="1391453375582" ignored="false" />
     <file path="/connection.js" changelist="9f08db38-1e18-4927-9e26-49cb4bf8c695" time="1390374885400" ignored="false" />
-    <file path="/app.js" changelist="9f08db38-1e18-4927-9e26-49cb4bf8c695" time="1391778355026" ignored="false" />
-    <file path="/index.ejs" changelist="9f08db38-1e18-4927-9e26-49cb4bf8c695" time="1391460843852" ignored="false" />
+    <file path="/app.js" changelist="9f08db38-1e18-4927-9e26-49cb4bf8c695" time="1392052353771" ignored="false" />
+    <file path="/index.ejs" changelist="9f08db38-1e18-4927-9e26-49cb4bf8c695" time="1392043429858" ignored="false" />
     <file path="/a.html" changelist="9f08db38-1e18-4927-9e26-49cb4bf8c695" time="1390377163743" ignored="false" />
     <file path="$PROJECT_DIR$/../NodeTest/app.js" changelist="9f08db38-1e18-4927-9e26-49cb4bf8c695" time="1390571728713" ignored="false" />
     <file path="/index.js" changelist="9f08db38-1e18-4927-9e26-49cb4bf8c695" time="1391458223317" ignored="false" />
-    <file path="/game.ejs" changelist="9f08db38-1e18-4927-9e26-49cb4bf8c695" time="1391461008033" ignored="false" />
-    <file path="/game.js" changelist="9f08db38-1e18-4927-9e26-49cb4bf8c695" time="1391479079464" ignored="false" />
-    <file path="/Controller.js" changelist="9f08db38-1e18-4927-9e26-49cb4bf8c695" time="1391446500007" ignored="false" />
-    <file path="/Dummy.txt" changelist="9f08db38-1e18-4927-9e26-49cb4bf8c695" time="1391770866205" ignored="false" />
+    <file path="/game.ejs" changelist="9f08db38-1e18-4927-9e26-49cb4bf8c695" time="1392041945131" ignored="false" />
+    <file path="/game.js" changelist="9f08db38-1e18-4927-9e26-49cb4bf8c695" time="1392042932405" ignored="false" />
+    <file path="/Controller.js" changelist="9f08db38-1e18-4927-9e26-49cb4bf8c695" time="1392050254127" ignored="false" />
+    <file path="/Dummy.txt" changelist="9f08db38-1e18-4927-9e26-49cb4bf8c695" time="1392047447934" ignored="false" />
     <file path="$PROJECT_DIR$/../NodeTest/routes/Controller.js" changelist="9f08db38-1e18-4927-9e26-49cb4bf8c695" time="1390571759188" ignored="false" />
     <file path="$PROJECT_DIR$/../NodeTest/routes/index.js" changelist="9f08db38-1e18-4927-9e26-49cb4bf8c695" time="1390570634169" ignored="false" />
     <file path="$PROJECT_DIR$/../NodeTest/routes/Interceptor.js" changelist="9f08db38-1e18-4927-9e26-49cb4bf8c695" time="1390571170796" ignored="false" />
@@ -42,11 +49,13 @@
     <file path="/tictactoe.ejs" changelist="9f08db38-1e18-4927-9e26-49cb4bf8c695" time="1391428790718" ignored="false" />
     <file path="/manager.js" changelist="9f08db38-1e18-4927-9e26-49cb4bf8c695" time="1391437632748" ignored="false" />
     <file path="/style.css" changelist="9f08db38-1e18-4927-9e26-49cb4bf8c695" time="1391459191658" ignored="false" />
-    <file path="$PROJECT_DIR$/node_modules/connect/lib/middleware/directory.js" changelist="9f08db38-1e18-4927-9e26-49cb4bf8c695" time="1391460930300" ignored="false" />
     <file path="$PROJECT_DIR$/node_modules/connect/lib/middleware/errorHandler.js" changelist="9f08db38-1e18-4927-9e26-49cb4bf8c695" time="1391460930300" ignored="false" />
     <file path="/TicTacToeClient.js" changelist="9f08db38-1e18-4927-9e26-49cb4bf8c695" time="1391779406618" ignored="false" />
     <file path="/GameFactory.js" changelist="9f08db38-1e18-4927-9e26-49cb4bf8c695" time="1391517218037" ignored="false" />
     <file path="/TikaTakaTu.ejs" changelist="9f08db38-1e18-4927-9e26-49cb4bf8c695" time="1391519197922" ignored="false" />
+    <file path="/TicTacClient.js" changelist="9f08db38-1e18-4927-9e26-49cb4bf8c695" time="1392041731075" ignored="false" />
+    <file path="/dummy.xml" changelist="9f08db38-1e18-4927-9e26-49cb4bf8c695" time="1392043432206" ignored="false" />
+    <file path="/SocketManager.js" changelist="9f08db38-1e18-4927-9e26-49cb4bf8c695" time="1392052291146" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,46 +75,31 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="TikaTakaTu.ejs" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/TikaTakaTu.ejs">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="42" column="56" selection-start="1634" selection-end="1634" vertical-scroll-proportion="-0.65384614">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TicTacToeClient.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/public/javascripts/TicTacToeClient.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="102" column="32" selection-start="2680" selection-end="2680" vertical-scroll-proportion="-5.363388">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="app.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="311" column="75" selection-start="9743" selection-end="9743" vertical-scroll-proportion="0.0">
+            <state line="79" column="11" selection-start="2175" selection-end="2175" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="game.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/javascripts/game.js">
+      <file leaf-file-name="SocketManager.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/routes/SocketManager.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="32" selection-start="243" selection-end="243" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="14" column="22" selection-start="365" selection-end="373" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#1599#2986#0" expanded="false" />
+                <element signature="e#3047#9020#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GameFactory.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/routes/GameFactory.js">
+      <file leaf-file-name="game.ejs" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/views/game.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="39" selection-start="285" selection-end="285" vertical-scroll-proportion="0.0">
+            <state line="9" column="7" selection-start="274" selection-end="274" vertical-scroll-proportion="-2.6">
               <folding />
             </state>
           </provider>
@@ -114,10 +108,28 @@
       <file leaf-file-name="TicTacToe.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/TicTacToe.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="260" column="92" selection-start="6598" selection-end="6598" vertical-scroll-proportion="0.0">
+            <state line="316" column="69" selection-start="8085" selection-end="8085" vertical-scroll-proportion="0.0">
               <folding>
-                <element signature="e#1667#1923#0" expanded="false" />
+                <element signature="e#1668#1924#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="game.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/javascripts/game.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="19" column="17" selection-start="416" selection-end="416" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="tictactoe.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/javascripts/tictactoe.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="189" column="40" selection-start="5826" selection-end="5826" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -133,6 +145,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitLogSettings">
+    <option name="myStructureFilterPaths" />
     <option name="myDateState">
       <MyDateState />
     </option>
@@ -140,22 +153,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/routes/Controller.js" />
-        <option value="$PROJECT_DIR$/routes/CustomClasses.js" />
-        <option value="$PROJECT_DIR$/views/TicTacToe.ejs" />
         <option value="$PROJECT_DIR$/public/javascripts/index.js" />
         <option value="$PROJECT_DIR$/public/stylesheets/style.css" />
-        <option value="$PROJECT_DIR$/views/index.ejs" />
         <option value="$PROJECT_DIR$/public/stylesheets/index.css" />
-        <option value="$PROJECT_DIR$/views/game.ejs" />
-        <option value="$PROJECT_DIR$/public/javascripts/game.js" />
         <option value="$PROJECT_DIR$/views/TikaTakaTu.ejs" />
         <option value="$PROJECT_DIR$/routes/GameFactory.js" />
         <option value="$PROJECT_DIR$/public/stylesheets/game.css" />
         <option value="$PROJECT_DIR$/routes/Memory.js" />
+        <option value="$PROJECT_DIR$/public/javascripts/TicTacToeClient.js" />
+        <option value="$PROJECT_DIR$/public/javascripts/TicTacClient.js" />
+        <option value="$PROJECT_DIR$/public/javascripts/game.js" />
+        <option value="$PROJECT_DIR$/views/index.ejs" />
+        <option value="$PROJECT_DIR$/routes/Controller.js" />
+        <option value="$PROJECT_DIR$/routes/SocketManager.js" />
+        <option value="$PROJECT_DIR$/views/game.ejs" />
         <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/routes/TicTacToe.js" />
-        <option value="$PROJECT_DIR$/public/javascripts/TicTacToeClient.js" />
       </list>
     </option>
   </component>
@@ -228,7 +241,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -244,6 +256,20 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="RealTimeGaming" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RealTimeGaming" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RealTimeGaming" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -345,17 +371,18 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="recentsLimit" value="5" />
     <property name="options.lastSelected" value="project.propVCSSupport.Mappings" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../NodeTest" />
+    <property name="recentsLimit" value="5" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../finkiSchedule" />
     <property name="FullScreen" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -414,23 +441,43 @@
     </task>
     <servers />
   </component>
+  <component name="TodoView" selected-index="0">
+    <todo-panel id="selected-file">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+    <todo-panel id="default-changelist">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+  </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.4996277" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24944155" sideWeight="0.6712329" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.5003723" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32876712" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -495,7 +542,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="2" />
+      <option name="time" value="3" />
     </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
@@ -511,78 +558,6 @@
     </PATH>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/node_modules/socket.io/lib/manager.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="427" column="18" selection-start="8543" selection-end="8543" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/webstorm.jar!/resources/html5-schema/phrase.rnc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="308" column="23" selection-start="5646" selection-end="5646" vertical-scroll-proportion="0.33139536" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/stylesheets/game.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="17" selection-start="277" selection-end="277" vertical-scroll-proportion="0.6284153" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/GameFactory.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="39" selection-start="285" selection-end="285" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/webstorm.jar!/resources/html5-schema/common.rnc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="123" column="23" selection-start="3271" selection-end="3271" vertical-scroll-proportion="0.33333334" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/game.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="31" selection-start="1205" selection-end="1205" vertical-scroll-proportion="-4.576923" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/TicTacToe.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="27" selection-start="94" selection-end="94" vertical-scroll-proportion="-1.9615384" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/TikaTakaTu.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="56" selection-start="1634" selection-end="1634" vertical-scroll-proportion="-0.65384614">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/CustomClasses.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="27" selection-start="247" selection-end="247" vertical-scroll-proportion="0.49275362">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/game.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="32" selection-start="243" selection-end="243" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="4" selection-start="243" selection-end="243" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavascriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/EcmaScript.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="65" column="0" selection-start="922" selection-end="922" vertical-scroll-proportion="0.33333334">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/routes/Memory.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="247" column="10" selection-start="5876" selection-end="5876" vertical-scroll-proportion="5.412568">
@@ -590,25 +565,93 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
+    <entry file="file://$PROJECT_DIR$/public/javascripts/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="311" column="75" selection-start="9743" selection-end="9743" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/index.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="83" column="28" selection-start="3132" selection-end="3132" vertical-scroll-proportion="-3.9230769">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/CustomClasses.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="4" selection-start="161" selection-end="161" vertical-scroll-proportion="0.33333334">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/Controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="110" column="58" selection-start="2769" selection-end="2769" vertical-scroll-proportion="-61.08">
+          <folding>
+            <element signature="e#1204#1410#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/javascripts/game.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="17" selection-start="416" selection-end="416" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/SocketManager.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="22" selection-start="365" selection-end="373" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#1599#2986#0" expanded="false" />
+            <element signature="e#3047#9020#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/connect/node_modules/batch/component.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="5" selection-start="283" selection-end="283" vertical-scroll-proportion="0.36594912">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/routes/TicTacToe.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="260" column="92" selection-start="6598" selection-end="6598" vertical-scroll-proportion="0.0">
+        <state line="316" column="69" selection-start="8085" selection-end="8085" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="e#1667#1923#0" expanded="false" />
+            <element signature="e#1668#1924#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/TicTacToeClient.js">
+    <entry file="file://$PROJECT_DIR$/public/javascripts/tictactoe.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="102" column="32" selection-start="2680" selection-end="2680" vertical-scroll-proportion="-5.363388">
+        <state line="189" column="40" selection-start="5826" selection-end="5826" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="79" column="11" selection-start="2175" selection-end="2175" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/GameFactory.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="39" selection-start="285" selection-end="285" vertical-scroll-proportion="0.30327868">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/game.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="7" selection-start="274" selection-end="274" vertical-scroll-proportion="-2.6">
           <folding />
         </state>
       </provider>

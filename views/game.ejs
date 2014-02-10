@@ -3,17 +3,20 @@
     <head>
         <link rel='stylesheet' href='/public/stylesheets/game.css' />
 
-        <script src="/public/javascripts/jquery.js"></script>
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="/public/bootstrap/css/bootstrap.min.css">
 
         <!-- Optional theme -->
         <link rel="stylesheet" href="/public/bootstrap/css/bootstrap-theme.min.css">
 
+        <script src="/public/javascripts/jquery.js"></script>
+
         <!-- Latest compiled and minified JavaScript -->
         <script src="/public/bootstrap/js/bootstrap.min.js"></script>
 
         <script src="/socket.io/socket.io.js"></script>
+
+        <script src="/public/javascripts/<%= game.id%>.js"></script>
 
         <script src="/public/javascripts/game.js"></script>
     </head>
@@ -28,9 +31,7 @@
         </div>
         <div id="main">
             <div id="gameDiv" style="height: 300px; text-align: center; background-color: lightblue">
-                <% if(game.id == 'tictactoe'){  %>
-                    <% include tictactoe %>
-                <% }    %>
+
                 <!--Insert switch for all other games-->
             </div>
             <div id="controls" class="row">
@@ -48,16 +49,11 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
+                                        <!--<tr>
                                             <td>18:28</td>
                                             <td>Sasko</td>
                                             <td>Zdravo!</td>
-                                        </tr>
-                                        <tr>
-                                            <td>18:34</td>
-                                            <td>Kristian</td>
-                                            <td>Zdravo!</td>
-                                        </tr>
+                                        </tr> -->
                                     </tbody>
                                 </table>
                             </div>
@@ -77,14 +73,10 @@
                         <div class="panel-heading">Players</div>
                         <div class="panel-body">
                             <div id="playersDiv">
-                                <div id="playerTemplate">
+                                <!--<div id="playerTemplate">
                                     <span class="glyphicon glyphicon-user" style="color: limegreen"> </span>
                                     <span class="player">Sashe</span>
-                                </div>
-                                <div id="playerTemplatee">
-                                    <span class="glyphicon glyphicon-user" style="color: limegreen"> </span>
-                                    <span class="player">Kristian</span>
-                                </div>
+                                </div>-->
                             </div>
                         </div>
                     </div>
