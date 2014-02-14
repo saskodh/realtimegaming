@@ -25,6 +25,17 @@ var Controller = function(usersHash){
             };
         }
 
+        if('memorygame' == game){
+            gameParams = {
+                "game": {
+                    id: 'memorygame',
+                    name: 'Memory Game'
+                },
+                "room": room
+            };
+        }
+
+
         //.....
 
         return gameParams;
