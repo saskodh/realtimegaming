@@ -2,18 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9f08db38-1e18-4927-9e26-49cb4bf8c695" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/routes/SocketManager.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/javascripts/tictactoe.js" />
-      <change type="DELETED" beforePath="C:\Users\Sashe\playWorkspace\RealTimeGaming\public\javascripts\TicTacToeClient.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Sashe\playWorkspace\RealTimeGaming\routes\connection.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Sashe\playWorkspace\RealTimeGaming\routes\index.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Sashe\playWorkspace\RealTimeGaming\views\TikaTakaTu.ejs" afterPath="" />
       <change type="DELETED" beforePath="C:\Users\Sashe\playWorkspace\RealTimeGaming\views\tictactoe.ejs" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/Controller.js" afterPath="$PROJECT_DIR$/routes/Controller.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/TicTacToe.js" afterPath="$PROJECT_DIR$/routes/TicTacToe.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/game.ejs" afterPath="$PROJECT_DIR$/views/game.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/game.js" afterPath="$PROJECT_DIR$/public/javascripts/game.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/GameFactory.js" afterPath="$PROJECT_DIR$/routes/GameFactory.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="RealTimeGaming.iws" />
@@ -29,7 +19,7 @@
     <file path="/game.ejs" changelist="9f08db38-1e18-4927-9e26-49cb4bf8c695" time="1392041945131" ignored="false" />
     <file path="/game.js" changelist="9f08db38-1e18-4927-9e26-49cb4bf8c695" time="1392042932405" ignored="false" />
     <file path="/Controller.js" changelist="9f08db38-1e18-4927-9e26-49cb4bf8c695" time="1392050254127" ignored="false" />
-    <file path="/Dummy.txt" changelist="9f08db38-1e18-4927-9e26-49cb4bf8c695" time="1392047447934" ignored="false" />
+    <file path="/Dummy.txt" changelist="9f08db38-1e18-4927-9e26-49cb4bf8c695" time="1392405730964" ignored="false" />
     <file path="$PROJECT_DIR$/../NodeTest/routes/Controller.js" changelist="9f08db38-1e18-4927-9e26-49cb4bf8c695" time="1390571759188" ignored="false" />
     <file path="$PROJECT_DIR$/../NodeTest/routes/index.js" changelist="9f08db38-1e18-4927-9e26-49cb4bf8c695" time="1390570634169" ignored="false" />
     <file path="$PROJECT_DIR$/../NodeTest/routes/Interceptor.js" changelist="9f08db38-1e18-4927-9e26-49cb4bf8c695" time="1390571170796" ignored="false" />
@@ -75,10 +65,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="app.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app.js">
+      <file leaf-file-name="game.ejs" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/game.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="79" column="11" selection-start="2175" selection-end="2175" vertical-scroll-proportion="0.0">
+            <state line="9" column="7" selection-start="274" selection-end="274" vertical-scroll-proportion="-0.65384614">
               <folding />
             </state>
           </provider>
@@ -87,19 +77,27 @@
       <file leaf-file-name="SocketManager.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/SocketManager.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="22" selection-start="365" selection-end="373" vertical-scroll-proportion="0.0">
+            <state line="104" column="52" selection-start="3725" selection-end="3725" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#1599#2986#0" expanded="false" />
-                <element signature="e#3047#9020#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="game.ejs" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/views/game.ejs">
+      <file leaf-file-name="GameFactory.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/routes/GameFactory.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="7" selection-start="274" selection-end="274" vertical-scroll-proportion="-2.6">
+            <state line="12" column="17" selection-start="264" selection-end="264" vertical-scroll-proportion="0.35326087">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Memory.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/routes/Memory.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="223" column="10" selection-start="5644" selection-end="5644" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -108,10 +106,8 @@
       <file leaf-file-name="TicTacToe.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/TicTacToe.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="316" column="69" selection-start="8085" selection-end="8085" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#1668#1924#0" expanded="false" />
-              </folding>
+            <state line="317" column="1" selection-start="8088" selection-end="8088" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -157,7 +153,6 @@
         <option value="$PROJECT_DIR$/public/stylesheets/style.css" />
         <option value="$PROJECT_DIR$/public/stylesheets/index.css" />
         <option value="$PROJECT_DIR$/views/TikaTakaTu.ejs" />
-        <option value="$PROJECT_DIR$/routes/GameFactory.js" />
         <option value="$PROJECT_DIR$/public/stylesheets/game.css" />
         <option value="$PROJECT_DIR$/routes/Memory.js" />
         <option value="$PROJECT_DIR$/public/javascripts/TicTacToeClient.js" />
@@ -169,6 +164,7 @@
         <option value="$PROJECT_DIR$/views/game.ejs" />
         <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/routes/TicTacToe.js" />
+        <option value="$PROJECT_DIR$/routes/GameFactory.js" />
       </list>
     </option>
   </component>
@@ -241,6 +237,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -287,102 +284,19 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="RealTimeGaming" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="RealTimeGaming" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="public" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="stylesheets" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="RealTimeGaming" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="RealTimeGaming" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="public" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="javascripts" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="RealTimeGaming" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="RealTimeGaming" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="public" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="images" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="RealTimeGaming" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="RealTimeGaming" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="public" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="RealTimeGaming" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="RealTimeGaming" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="node_modules" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="options.lastSelected" value="project.propVCSSupport.Mappings" />
     <property name="recentsLimit" value="5" />
+    <property name="options.lastSelected" value="project.propVCSSupport.Mappings" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../finkiSchedule" />
     <property name="FullScreen" value="false" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -467,17 +381,17 @@
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.4996277" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24944155" sideWeight="0.6712329" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24944155" sideWeight="0.67235494" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.5003723" order="9" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32876712" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32764506" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -558,9 +472,23 @@
     </PATH>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/routes/Memory.js">
+    <entry file="file://$PROJECT_DIR$/routes/TicTacToe.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="247" column="10" selection-start="5876" selection-end="5876" vertical-scroll-proportion="5.412568">
+        <state line="317" column="1" selection-start="8088" selection-end="8088" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/javascripts/game.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="17" selection-start="416" selection-end="416" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/javascripts/tictactoe.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="189" column="40" selection-start="5826" selection-end="5826" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -589,9 +517,7 @@
     <entry file="file://$PROJECT_DIR$/routes/Controller.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="110" column="58" selection-start="2769" selection-end="2769" vertical-scroll-proportion="-61.08">
-          <folding>
-            <element signature="e#1204#1410#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -602,30 +528,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/SocketManager.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="22" selection-start="365" selection-end="373" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#1599#2986#0" expanded="false" />
-            <element signature="e#3047#9020#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/connect/node_modules/batch/component.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="5" selection-start="283" selection-end="283" vertical-scroll-proportion="0.36594912">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/TicTacToe.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="316" column="69" selection-start="8085" selection-end="8085" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#1668#1924#0" expanded="false" />
-          </folding>
-        </state>
+        <state line="11" column="5" selection-start="283" selection-end="283" vertical-scroll-proportion="0.36594912" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/javascripts/tictactoe.js">
@@ -637,21 +542,44 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="79" column="11" selection-start="2175" selection-end="2175" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/GameFactory.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="39" selection-start="285" selection-end="285" vertical-scroll-proportion="0.30327868">
+        <state line="79" column="11" selection-start="2175" selection-end="2175" vertical-scroll-proportion="0.6885246">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/game.ejs">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="7" selection-start="274" selection-end="274" vertical-scroll-proportion="-2.6">
+        <state line="9" column="7" selection-start="274" selection-end="274" vertical-scroll-proportion="-0.65384614">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/TicTacToe.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="317" column="1" selection-start="8088" selection-end="8088" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/SocketManager.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="104" column="52" selection-start="3725" selection-end="3725" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#1599#2986#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/Memory.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="223" column="10" selection-start="5644" selection-end="5644" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/GameFactory.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="17" selection-start="264" selection-end="264" vertical-scroll-proportion="0.35326087">
           <folding />
         </state>
       </provider>
