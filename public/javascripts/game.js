@@ -35,6 +35,9 @@ $(document).ready(function(){
     socket.on('chatMessage', function(chatMsg){
         var tbody = $('#chatDiv tbody');
         tbody.append(createChatMsgTemplate(chatMsg));
+
+        //scroll down to see the message
+        tbody.animate({ scrollTop: tbody[0].scrollHeight}, 1000);
     });
 
     socket.on('updatePlayersList', function(players){
@@ -57,18 +60,33 @@ $(document).ready(function(){
     $('#btnSend').click(function(){
         var chatInput = $('#txtChatMessage');
         var msg = chatInput.val();
-        chatInput.val('');
 
-        socket.emit('chatMessage', {message: msg});
+        if(msg){
+            socket.emit('chatMessage', {message: msg});
+            chatInput.val('');
+            chatInput.focus();
+        }
+    });
+
+    $('#txtChatMessage').keydown(function(event){
+        if(event.keyCode==13){
+            $('#btnSend').trigger('click');
+        }
     });
 
 });
 
 var createChatMsgTemplate = function(message){
     var row = $(document.createElement('tr'));
-    var timeCol = $(document.createElement('td')).html(message.time);
-    var playerCol = $(document.createElement('td')).html(message.from);
-    var msgCol = $(document.createElement('td')).html(message.message);
+
+    var date = new Date(message.time);
+
+    var timeCol = $(document.createElement('td')).addClass('chatTimeCol');
+    timeCol.html(date.toTimeString().split(' ')[0]);
+    var playerCol = $(document.createElement('td')).addClass('chatPlayerCol');
+    playerCol.html(message.from);
+    var msgCol = $(document.createElement('td')).addClass('chatMsgCol');
+    msgCol.html(message.message);
 
     row.append(timeCol).append(playerCol).append(msgCol);
 

@@ -9,6 +9,7 @@ a {
 
 #playersDiv, #roomsDiv{
     height: 300px;
+    overflow: auto;
 }
 
 #gamesDiv {
