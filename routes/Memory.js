@@ -45,11 +45,10 @@ MemoryGameMessageCreator.createPlayerMoveMessage = function(position){
     return msg;
 }
 
-MemoryGameMessageCreator.createGameOverMessage = function(isWinner, winnerName){
+MemoryGameMessageCreator.createGameOverMessage = function(winnerName){
     var msg = new MemoryGameMessage();
     msg.msgType = MemoryGameMessageType.GAME_OVER_MESSAGE;
     msg.data = {
-        isWinner: isWinner,
         winnerName: winnerName
     }
 
@@ -85,6 +84,7 @@ var MemoryGame = module.exports = function(){
     this.players = [];
     this.numTiles = 40;
     this.stateMap = [];
+    this.hasPrev = -1;
 
     this.resetGame();
     this.initRandom();
@@ -108,6 +108,8 @@ MemoryGame.prototype.acceptPlayerMove = function(player,position){
         return;
 
     this.gameState[position] = true;
+    this.gameState = this.checkForClosing(this.stateMap,this.gameState,position,0);
+    this.gameState = this.checkForClosing(this.stateMap,this.gameState,position,20);
 
     var state = {
         gameState: this.gameState,
@@ -119,10 +121,50 @@ MemoryGame.prototype.acceptPlayerMove = function(player,position){
     return state;
 }
 
-MemoryGame.prototype.checkPlayerWon = function(){
-
+MemoryGame.prototype.checkForClosing = function(stateMap,gamestate,position,whichMap){
+    var array = [0,0,0,0,0,0,0,0,0,0];
+    for(var i=whichMap+0;i<whichMap+20;i++){
+        if(gamestate[i]){
+            array[stateMap[i]]++;
+        }
+    }
+    var numOfOnes = 0;
+    for(var i=0;i<10;i++){
+        if(array[i]==1)
+            numOfOnes++;
+    }
+    //otovoril 3 razlicni , zatvorigi prethodnite dve otvoreni razlicni polinja
+    if(numOfOnes == 3){
+        for(var i=whichMap+0;i<whichMap+20;i++){
+            if(array[stateMap[i]] == 1 && i != position){
+                gamestate[i] = false;
+            }
+        }
+    }
+    this.checkPlayerWon();
+    return gamestate;
 }
 
+MemoryGame.prototype.checkPlayerWon = function(){
+    var playerOneWin = true;
+    var playerTwoWin = true;
+    for(var i = 0;i<20;i++){
+        if(this.gameState[i] == false){
+            playerOneWin = false;
+        }
+    }
+    for(var i = 20;i<40;i++){
+        if(this.gameState[i] == false){
+            playerTwoWin = false;
+        }
+    }
+    if(!playerOneWin && !playerTwoWin)
+        return;
+    if(playerOneWin)
+        this.roomBroadcast(MemoryGameMessageCreator.createGameOverMessage(this.players[0].username));
+    if(playerTwoWin)
+        this.roomBroadcast(MemoryGameMessageCreator.createGameOverMessage(this.players[1].username));
+}
 
 MemoryGame.prototype.initRandom = function(){
     var leftMap = [];
@@ -149,9 +191,10 @@ MemoryGame.prototype.shuffle = function shuffle(o){ //v1.0
 }
 
 MemoryGame.prototype.resetGame = function(){
-    for(var i=0;i<this.numTiles;i++){
+    for(var i=0;i<40;i++){
         this.gameState[i] = false;
     }
+    this.initRandom();
 }
 
 MemoryGame.prototype.checkGameCanBegin = function(){
@@ -221,3 +264,4 @@ MemoryGame.prototype.considerPlayerMessage = function(message){
         this.acceptPlayerMove(message.from, message.data.position);
     }
 }
+

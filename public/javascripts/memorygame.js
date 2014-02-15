@@ -41,13 +41,11 @@ MemoryGameMessageCreator.createPlayerMoveMessage = function(position){
     return msg;
 }
 
-MemoryGameMessageCreator.createGameOverMessage = function(isWinner, winnerName, winningLine){
+MemoryGameMessageCreator.createGameOverMessage = function(winnerName){
     var msg = new MemoryGameMessage();
     msg.msgType = MemoryGameMessageType.GAME_OVER_MESSAGE;
     msg.data = {
-        isWinner: isWinner,
-        winnerName: winnerName,
-        winningLine: winningLine
+        winnerName: winnerName
     }
 
     return msg;
@@ -130,13 +128,11 @@ MemoryGameClient.prototype.resetGame = function(){
     this.label.html("Draw game");
 }
 MemoryGameClient.prototype.gameOver = function(data){
-
     if(!data.error){
         this.label.text("The winner is "+data.winnerName);
     }else {
         this.label.text(data.error);
     }
-
     this.btnStart.show();
 }
 MemoryGameClient.prototype.playerMove = function(position){
@@ -173,9 +169,7 @@ MemoryGameClient.prototype.updateState = function(data){
     //data.gameState
     for(var i=0; i<data.state.gameState.length; i++){
         var clickedDiv = $("#" + i);
-        var clickedDiv = $("#" + i);
-        var img = $(document.createElement('img'));
-        img.attr('src', "/public/images/"+data.state.stateMap[i]%10+".jpg");
+        clickedDiv.children().attr('src', "/public/images/"+data.state.stateMap[i]+".jpg");
         if(data.state.gameState[i] == false)
             clickedDiv.children().css("visibility","hidden");
         if(data.state.gameState[i] == true)
@@ -188,14 +182,6 @@ MemoryGameClient.prototype.drawMove = function(player,position,letter){
     onTurnHeader.text("On Move: "+player);
     var clickedDiv = $("#" + position);
     clickedDiv.text(letter);
-}
-
-MemoryGameClient.prototype.paintGameOver = function(winner,winningLine){
-    var onTurnHeader = $("#turn");
-    onTurnHeader.text("The winner is "+winner);
-    for(var i=0; i<winningLine.length; i++){
-        $("#" + winningLine[i]).css("background-color","red");
-    }
 }
 
 var socket = null;
