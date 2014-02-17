@@ -77,8 +77,8 @@ var MemoryGameClient = function(socket, playground){
     });
     this.playground.append(this.btnStart);
 
-    var divLeft = $(document.createElement('div'));
-    var divRight = $(document.createElement('div'));
+    var divLeft = $(document.createElement('div')).addClass('memoryMap');
+    var divRight = $(document.createElement('div')).addClass('memoryMap');
     var templateLeft = null;
     var templateRight = null;
     var idLeft = 0;

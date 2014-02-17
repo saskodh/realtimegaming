@@ -86,7 +86,7 @@ document.Game = (function(){
         });
         this.playground.append(this.btnStart);
 
-        var div = $(document.createElement('div'));
+        var div = $(document.createElement('div')).addClass('ticTacToeContainer');
         var template = null;
         for(var i=0; i<3; i++){
             for(var j=0; j<3; j++){
