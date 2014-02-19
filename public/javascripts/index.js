@@ -44,6 +44,25 @@ $(document).ready(function(){
 
         $('#spinnerRooms').hide();
     });
+
+    var playerStatus = $('#playerStatus');
+    if(playerStatus){
+        $('#playerStatus .logout').hide();
+
+        $('#loggedUserDiv').hover(function(){
+            //in
+            $('#playerStatus .user').hide();
+            $('#playerStatus .logout').show();
+
+            $('#loggedUserDiv').toggleClass('logoutDiv');
+        }, function(){
+            //out
+            $('#playerStatus .logout').hide();
+            $('#playerStatus .user').show();
+
+            $('#loggedUserDiv').toggleClass('logoutDiv');
+        })
+    }
 });
 
 var createPlayerTemplate = function(playerName, available){

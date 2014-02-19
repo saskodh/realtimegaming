@@ -90,7 +90,8 @@ var Controller = function(usersHash){
 
         //redirect to index
         //res.render('index', {"username": username});
-        that.index(req, res);
+        //that.index(req, res);
+        res.redirect('');
     }
 
     this.logout = function(req, res){
@@ -101,6 +102,10 @@ var Controller = function(usersHash){
         req.session.username = null;
         req.session.room = null;
         req.session.game = null;
+
+        res.redirect('');
+
+        //that.index(req, res);
     }
 
     this.createRoom = function(req, res){

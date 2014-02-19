@@ -26,57 +26,63 @@
                 <span class="label label-default" style="font-size: 20px"><%= game.name %>: <%= room %></span>
             </div>
             <div class="col-md-2">
-                <button id="btnLeaveRoom" type="button" class="btn btn-danger">Leave room</button>
+                <button id="btnLeaveRoom" type="button" class="btn btn-danger pull-right">Leave room</button>
             </div>
         </div>
         <div id="main">
-            <div id="gameDiv" style="height: 300px; text-align: center; background-color: #cccccc">
+            <div class="panel panel-default">
+                <div id="gameDiv" class="panel-body" style="text-align: center; background-color: #cccccc">
 
                 <!--Insert switch for all other games-->
+                </div>
             </div>
-            <div id="controls" class="row">
-                <div id="chatDiv" class="col-md-9">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Chat</div>
-                        <div class="panel-body">
-                            <div>
-                                <table class="table table-condensed">
-                                    <thead>
-                                        <tr>
-                                            <td class="chatTimeCol">Time</td>
-                                            <td class="chatPlayerCol">Player</td>
-                                            <td class="chatMsgCol">Message</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!--<tr>
-                                            <td class="chatTimeCol">18:28</td>
-                                            <td class="chatPlayerCol">Sasko</td>
-                                            <td class="chatMsgCol">Zdravo!</td>
-                                        </tr>-->
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div>
-                                <div class="input-group">
-                                    <input type="text" id="txtChatMessage" class="form-control">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div id="controls" class="row">
+                        <div id="chatDiv" class="col-md-9">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Chat</div>
+                                <div class="panel-body">
+                                    <div>
+                                        <table class="table table-condensed">
+                                            <thead>
+                                            <tr>
+                                                <td class="chatTimeCol">Time</td>
+                                                <td class="chatPlayerCol">Player</td>
+                                                <td class="chatMsgCol">Message</td>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <!--<tr>
+                                                <td class="chatTimeCol">18:28</td>
+                                                <td class="chatPlayerCol">Sasko</td>
+                                                <td class="chatMsgCol">Zdravo!</td>
+                                            </tr>-->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div>
+                                        <div class="input-group">
+                                            <input type="text" id="txtChatMessage" class="form-control">
                                     <span class="input-group-btn">
                                         <button id="btnSend" class="btn btn-default" type="button">Send!</button>
                                     </span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Players</div>
-                        <div class="panel-body">
-                            <div id="playersDiv">
-                                <!--<div id="playerTemplate">
-                                    <span class="glyphicon glyphicon-user" style="color: limegreen"> </span>
-                                    <span class="player">Sashe</span>
-                                </div>-->
+                        <div class="col-md-3">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Players</div>
+                                <div class="panel-body">
+                                    <div id="playersDiv">
+                                        <!--<div id="playerTemplate">
+                                            <span class="glyphicon glyphicon-user" style="color: limegreen"> </span>
+                                            <span class="player">Sashe</span>
+                                        </div>-->
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

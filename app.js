@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -48,29 +47,6 @@ app.post('/register', controller.register);
 app.post('/logout', controller.authorizer, controller.logout);
 app.post('/createroom', controller.authorizer, controller.createRoom);
 app.get('/:game/:room', controller.authorizer, controller.game);
-app.get('/memorygame/:room', controller.authorizer, function(req, res){
-    if(req.params.room){
-        var params = {
-            "game": {
-                id: 'memorygame',
-                name: 'Memory Game'
-            },
-            "room": req.params.room
-        };
-
-        req.session.room = params.room;
-        req.session.game = 'memorygame';
-
-        usersHash[req.session.username].room = params.room;
-        usersHash[req.session.username].game = 'memorygame';
-        usersHash[req.session.username].isPlaying = true;
-
-        res.render('memorija', params);
-    }else {
-        //redirect to index
-        res.render('index', { "username": req.session.username });
-    }
-});
 
 //start the server
 var server = http.createServer(app).listen(app.get('port'), function(){

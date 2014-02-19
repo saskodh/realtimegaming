@@ -30,9 +30,16 @@
                 <%if(!username){    %>
                     Please log in
                 <%} else {  %>
-                    <div id="playerTemplate">
-                        <span class="glyphicon glyphicon-user" style="color: limegreen"> </span>
-                        <span class="player"><%= username%></span>
+                    <div id="playerStatus">
+                        <div class="logout">
+                            <form method="post" action="logout">
+                                <button type="submit" class="remove_button_css" style="color: red; font-weight: bold"> Log out </button>
+                            </form>
+                        </div>
+                        <div class="user">
+                            <span class="glyphicon glyphicon-user" style="color: limegreen"> </span>
+                            <span class="player"><%= username%></span>
+                        </div>
                     </div>
                 <% } %>
             </div>

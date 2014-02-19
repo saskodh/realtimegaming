@@ -113,7 +113,7 @@ var TicTacToeGame = module.exports = function(){
 }
 
 TicTacToeGame.prototype.acceptPlayerMove = function(player, position){
-    console.log("acceptPlayerMove: " + player.username + ": " + position);
+    //console.log("acceptPlayerMove: " + player.username + ": " + position);
     //if there is not enough players
     if(!this.isRunning)
         return;
@@ -308,7 +308,7 @@ TicTacToeGame.prototype.considerPlayerMessage = function(message){
         //TODO: vakva poraka nema da stigne od klient
     }
     if(message.msgType == TicTacMessageType.PLAYER_MOVE_MESSAGE){
-        console.log("PlayerMoveMessage: acceptPlayerMove");
+        //console.log("PlayerMoveMessage: acceptPlayerMove");
         this.acceptPlayerMove(message.from, message.data.position);
     }
 }

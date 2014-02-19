@@ -38,6 +38,7 @@ var SocketManager = function(socketIO){
             //emit rooms
             socket.emit('updateRoomsList', _extractRoomList(_roomsHash));
             socket.emit('updatePlayersList', _extractLoggedInPlayers());
+            socket.broadcast.emit('updatePlayersList', _extractLoggedInPlayers());
 
             socket.on('disconnect', function () {
                 //console.log(usersIDHash[clientID].name + " was deleted from usersIDHash");
@@ -87,7 +88,7 @@ var SocketManager = function(socketIO){
         });
 
         _io.of('/game').on('connection', function(socket){
-
+            var newRoom = false;
             var roomName =  socket.handshake.session.room;
             if(roomName){
                 //check if the room is active
@@ -114,23 +115,19 @@ var SocketManager = function(socketIO){
                     }
 
                     _roomsHash[roomName] = room;
-
-                    //activeRooms.push(socket.handshake.session.room);
-                    //emit updateRoomsList to index namespace
-                    _io.of('index').emit('updateRoomsList', _extractRoomList(_roomsHash));
+                    newRoom = true;
                 }
-
                 //join the room you visited
                 socket.join(roomName);
-                _roomsHash[roomName].players.push(socket);
 
+                _roomsHash[roomName].players.push(socket);
                 //emit recent messages
                 socket.emit('recentChatMsgs', _roomsHash[roomName].recentMessages);
 
                 //emit joining message to the room
                 var msg = new rtg.ChatMessage(socket.handshake.session.username, "I'm joining the room");
-                socket.broadcast.to(roomName).emit('chatMessage', msg);
 
+                socket.broadcast.to(roomName).emit('chatMessage', msg);
                 //emit player list in the room
 //        console.log();
 //        console.log(io.sockets.clients(roomsHash[roomName].id));
@@ -138,7 +135,12 @@ var SocketManager = function(socketIO){
                 //and then from the session to read and return the name
 
                 socket.emit('updatePlayersList', _extractPlayerUsernames(roomName));
+
                 socket.broadcast.to(roomName).emit('updatePlayersList', _extractPlayerUsernames(roomName));
+
+                _io.of('/index').emit('updatePlayersList', _extractLoggedInPlayers());
+                if(newRoom)
+                    _io.of('/index').emit('updateRoomsList', _extractRoomList(_roomsHash));
             }
 
 
@@ -150,8 +152,12 @@ var SocketManager = function(socketIO){
                 socket.emit('chatMessage', theMsg);
                 socket.broadcast.to(roomName).emit('chatMessage', theMsg);
 
-                //TODO: update function that will keep just the last 10 msgs
                 _roomsHash[roomName].recentMessages.push(theMsg);
+
+                //to keep just the last 10 msgs
+                if(_roomsHash[roomName].recentMessages.length > 10){
+                    _roomsHash[roomName].recentMessages.shift();
+                }
             });
 
             socket.on('gameMessage', function(message){
@@ -182,7 +188,7 @@ var SocketManager = function(socketIO){
                     if(_roomsHash[roomName].players.length == 0){
                         delete _roomsHash[roomName];
                         //emit updateRoomsList to index namespace
-                        _io.of('index').emit('updateRoomsList', _extractRoomList(_roomsHash));
+                        _io.of('/index').emit('updateRoomsList', _extractRoomList(_roomsHash));
                     } else {
 
                         //emit leaving message to the room
