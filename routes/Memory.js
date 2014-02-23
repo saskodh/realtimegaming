@@ -222,6 +222,29 @@ MemoryGame.prototype.addPlayer = function(player){
     return result;
 }
 
+MemoryGame.prototype.removePlayer = function(player){
+    var index = -1;
+    for(var i=0; i<this.players.length; i++){
+        if(this.players[i].username == player.username){
+            index = i;
+            break;
+        }
+    }
+
+    if(index > -1){
+        this.players.slice(index, 1);
+
+        //TODO: check if he was playing to stop the game
+        if(player.username == this.players[0] || player.username == this.players[1]){
+            //this.stopGame();
+
+            var error = player.username + " disconnected. To play press start";
+            this.roomBroadcast(MemoryGameMessageCreator.createGameOverMessage(error));
+        }
+
+    }
+}
+
 MemoryGame.prototype.startGame = function(){
     if(this.isRunning)
         return;
@@ -265,3 +288,4 @@ MemoryGame.prototype.considerPlayerMessage = function(message){
     }
 }
 
+/**/

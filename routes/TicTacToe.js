@@ -214,6 +214,10 @@ TicTacToeGame.prototype.addPlayer = function(player){
 
     if(this.isRunning){
         console.log('The game is running cant add more players!');
+
+        //send him the current game state
+
+
         return false;
     }
 
